@@ -31,7 +31,7 @@ public class CommandHelp implements ICommand {
     public String resolveCommand(String... parametry) {
         return "Tvým cílem je najít korunu krále Šalamouna, který je zde pohřbený.\n \n"
                 + "Můžeš používat tyto příkazy:\n"
-                + validCommands.returnCommandNames();
+                + validCommands.returnCommandNames() + ", jdi zpet";
     }
 
 

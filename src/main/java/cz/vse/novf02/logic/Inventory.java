@@ -99,6 +99,7 @@ public class Inventory {
     public Boolean isEmpty() {
         return (items.size() <= capacity);
     }
+    public Boolean isFull(){return(items.size() == capacity);}
     /**
      * Retrieves the item with the given name from the inventory.
      * @param itemName the name of the item

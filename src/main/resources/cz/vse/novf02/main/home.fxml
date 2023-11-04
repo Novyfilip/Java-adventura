@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21">
+<GridPane fx:controller="cz.vse.novf02.main.HomeController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21">
   <columnConstraints>
     <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
@@ -40,17 +40,17 @@
           </Menu>
         </menus>
       </MenuBar>
-      <TextArea GridPane.rowIndex="1">
+      <TextArea fx:id="vystup"  editable="false"  GridPane.rowIndex="1">
          <padding>
             <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
          </padding>
       </TextArea>
-      <TextField GridPane.rowIndex="2">
+      <TextField  fx:id="vstup" onAction="#odesliVstup" GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets left="4.0" right="64.0" />
          </GridPane.margin>
       </TextField>
-      <Button mnemonicParsing="false" text="Odeslat" GridPane.rowIndex="2">
+      <Button onAction="#odesliVstup" mnemonicParsing="false" text="Odeslat" GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets right="4.0" />
          </GridPane.margin>

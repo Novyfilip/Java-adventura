@@ -29,32 +29,39 @@ public class CommandTake implements ICommand {
         Room currentRoom = plan.getCurrentRoom();
 
         if (parametry.length == 0) {
-            // pokud chybí druhé slovo, tak ....
+            // If no item name is provided, prompt the user.
             return "Musíš upřesnit, co chceš!";
-
         }
-        else if (parametry.length == 1 && currentRoom.containsItem(parametry[0])) {
-            // pokud je druhe slovo takové, které lze vložit
-            Item item = currentRoom.returnItem(parametry[0]);
-            if(!item.getCanCarry()) {
+
+        String itemName = parametry[0];
+        if (currentRoom.containsItem(itemName)) {
+            Item item = currentRoom.returnItem(itemName);
+            if (!item.getCanCarry()) {
                 return "Tohle rozhodně neuneseš!";
-            }
-            else if (this.plan.getCurrentRoom().containsItem(parametry[0])) {
-                // pokud je druhe slovo takové, které lze vložit
-                Inventory inventory = this.plan.getInventory();
-                if(inventory.isEmpty() && inventory.containsItem((parametry[0]))) {
+            } else {
+                Inventory inventory = plan.getInventory();
+                if (inventory.containsItem(itemName)) {
                     return "Tento předmět jsi už sebral.";
-                }
-                else if (inventory.isEmpty()) {
-                    this.plan.getInventory().insertItem(currentRoom.removeItem(parametry[0]));
-                    return "Sebral jsi předmět " + item.getItemName();
-                }
-                else {
-                    return "Tvůj inventář je plný";
+                } else if (!inventory.isFull()) {
+                    item = currentRoom.removeItem(itemName);
+                    inventory.insertItem(item);
+
+                    // Check if the item is marked as loot and has an action message
+                    if (item.isLoot() && item.getActionMessage() != null) {
+                        return "Sebral jsi předmět " + item.getItemName() + ". " + item.getActionMessage();
+                    } else {
+                        return "Sebral jsi předmět " + item.getItemName();
+                    }
+                } else {
+                    return "Tvůj inventář je plný.";
                 }
             }
-        }return "Nic takového tady není!";
+        } else {
+            return "Nic takového tady není!";
+        }
     }
+
+
     /**
      *  Metoda vrací název příkazu (slovo které používá hráč pro jeho vyvolání)
      *  @return nazev prikazu

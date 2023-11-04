@@ -8,6 +8,7 @@ public class Item {
     private String interactionItem; // Another item's name that this item can interact with
     private String interactionMessage; // Message shown when this item interacts with interactionItem
     private Item generatedItem; //loot z nepřátel a truhel
+    private boolean isLoot; // flag pro speciální zprávu při sebrání
 
     public Item(String name, boolean canCarry, String actionMessage) {
         this.name = name;
@@ -56,7 +57,7 @@ public class Item {
      * Method to return the interaction message.
      * @return Interaction message.
      */
-    public String getInteractionMessage() {
+    public String getActionMessage() {
         return this.interactionMessage;
     }
 
@@ -64,17 +65,42 @@ public class Item {
      * Method to return the action message when the item is used.
      * @return Message shown when the item is used.
      */
-    public String use(Room room) {
-        if (generatedItem != null) {
-            room.insertItem(generatedItem);
-            generatedItem = null;  // Aby nebyl předmět vytvořen vícekrát
+    public String use(Room currentRoom) {
+        // Kontroluje, jestli se v místnosti nachází cíl
+        Item target = currentRoom.returnItem(this.interactionItem);
+        if (target != null) {
+            // Check if the target has loot to generate
+            if (target.getGeneratedItem() != null) {
+                // Vytvoří loot a vloží ho do místnosti
+
+                currentRoom.insertItem(target.getGeneratedItem());
+            }
+            // Odstraní cíl po použití
+            currentRoom.removeItem(target.getItemName());
+
+            // Return the interaction message or any confirmation message that the action was successful
+            return this.interactionMessage;
         }
-        return actionMessage;
+        // If the target is not in the room or no interaction is possible
+        return "Nelze použít " + this.name + " zde.";
     }
 
+
+    //generování předmětů
     public void setGeneratedItem(Item item) {
         this.generatedItem = item;
     }
+    public Item getGeneratedItem() {
+        return this.generatedItem;
+    }
+    public void setAsLoot(boolean isLoot) {
+        this.isLoot = isLoot;
+    }
+    // Metoda na kontrolu, jestli je předmět pokladem
+    public boolean isLoot() {
+        return isLoot;
+    }
+
 
 
 

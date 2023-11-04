@@ -1,9 +1,12 @@
 package cz.vse.novf02.logic;
-import java.util.Set;
+import java.util.Map;
+import java.util.List;
+import java.util.HashMap;
+import java.util.Arrays;
+
 
 /**
  *  Class GamePlan - třída představující mapu a stav adventury.
- *
  *  Tato třída inicializuje prvky ze kterých se hra skládá:
  *  vytváří všechny prostory,
  *  propojuje je vzájemně pomocí východů
@@ -53,66 +56,58 @@ public class GamePlan {
     }
     private void createGame(){
        // vytvářejí se jednotlivé Prostory
-        vstupDoKatakomb = new Room("vstupDoKatakomb","Vstup do podzemí");
+        vstupDoKatakomb = new Room("vstupDoKatakomb","Vstup do podzemí"+"\nVýchody: vstupniMistnost");
 
         Room vstupniMistnost = new Room("vstupniMistnost", "Dveře se otevřely a ty se nacházíš ve vstupní síni. Je tu zima a tma.","stary_klic");
-             Room leveRozcesti1 = new Room("leveRozcesti1","Šel jsi levou chodbou, cesta za tebou se ale bohužel zasypala obřími kameny. To bylo těsné! Můžeš jít do místnosti vpravo nebo pokračovat chodbou dál.");
-             Room leveRozcesti2 = new Room("leveRozcesti2","Zde chodba končí. Po pravé straně je hrobka prince Philipa, zatímco na konci chodby je hrobka významných rytířů.");
+             Room levaChodba = new Room("levaChodba","Šel jsi levou chodbou, cesta za tebou se ale bohužel zasypala obřími kameny. To bylo těsné! Můžeš jít do místnosti vpravo nebo pokračovat chodbou dál.");
+             Room leveRozcesti = new Room("leveRozcesti","Zde chodba končí. Po pravé straně je hrobka prince Philipa, zatímco na konci chodby je hrobka významných rytířů.");
              Room hrobkaPrince = new Room("hrobkaPrince","Vešel jsi do hrobky prince Philipa.\n Oficiálně se dožil 99 let, ale šuškalo se o něm, že je ve skutečnosti 1000 let starý upír.");
              Room hrobkaRytiru = new Room("hrobkaRytiru", "Vstoupil jsi do komnaty, kde jsou pohřbeni nejvýznamnější členové královské stráže. Jeden sarkofág je pootevřený a v něm vidíš ležícího rytíře s pořádným palcátem v ruce. Že by Jan Žižka?");
-             Room levyDungeon1 = new Room("levyDungeon1", "Při vstupu do místnosti slyšíš posouvající se kamenné víko. Je to oživlá mumie! Holýma rukama ji rozhodně nezabiješ, budeš si muset obstarat nějaký meč.","palcat");
-             Room levyDungeon2 = new Room("levyDungeon2","Před tebou stojí obří oživlý strážce v těžké zbroji. Abys vůbec měl šanci prorazit jeho brnění, budeš potřebovat pořádnou zbraň","excalibur");
+             Room levyDungeon = new Room("levyDungeon", "Při vstupu do místnosti slyšíš posouvající se kamenné víko. Je to oživlá mumie! Holýma rukama ji rozhodně nezabiješ, budeš si muset obstarat nějaký meč.","palcat");
+             Room levyMost = new Room("levyMost","Před tebou stojí obří oživlý strážce v těžké zbroji. Abys vůbec měl šanci prorazit jeho brnění, budeš potřebovat pořádnou zbraň","excalibur");
              Room stredKatakomb = new Room("stredKatakomb","Nacházíš se v samém srdci katakomb. Na východě vidíš jakési světlo, na jihu dveře, které musí vést do vstupní místnosti a na severu vstup tak honosný, že to může být jen krypta krále Šalamouna.\n" +
                       "Na kamenných dveřích vidíš jakýsi kruh. Po bližším ohledání vidíš, že se tam musí vložit královská pečeť.\n");
-             Room prostredniChodba = new Room("prostredniChodba","Našel jsi cestu zpět. Hurá!");
-             Room praveRozcesti1 = new Room("praveRozcesti1","Šel jsi pravou chodbou, cesta za tebou se ale bohužel zasypala obřími kameny. To bylo těsné! Můžeš jít do místnosti vlevo nebo pokračovat chodbou dál.\n");
-             Room praveRozcesti2 = new Room("praveRozcesti2","Zde chodba končí. Po levé straně je lovecký salon, zatímco na konci chodby slyšíš kapající vodu.");
-             Room studanka = new Room("studanka", "Před sebou vidíš, jak pramen vvvěrá do studánky.\n Osvěžíš se a hned je ti lépe. Zároveň si všimneš, že se v záři tvé pochodně něco na dně třpytí...");
+             Room prostredniChodba = new Room("prostredniChodba","Našel jsi cestu zpět. Hurá!","klic_zpet");
+             Room pravaChodba = new Room("pravaChodba","Šel jsi pravou chodbou, cesta za tebou se ale bohužel zasypala obřími kameny. To bylo těsné! Můžeš jít do místnosti vlevo nebo pokračovat chodbou dál.\n");
+             Room praveRozcesti = new Room("praveRozcesti","Zde chodba končí. Po levé straně je lovecký salon, zatímco na konci chodby slyšíš kapající vodu.");
+             Room studanka = new Room("studanka", "Před sebou vidíš, jak pramen vvvěrá do studánky.\n Osvěžíš se a hned je ti lépe.\n Zdá se, že tu byla vytvořena pro případ požáru.");
              Room loveckySalon = new Room("loveckySalon", "Vstoupil jsi do místnosti plné loveckého vybavení.\n Dle dobových záznamů by tu mohl být luk Robina Hooda.");
-             Room pravyDungeon1 = new Room("pravyDungeon1", "Před tebou stojí vetchý oživlý kouzelník.\n Jednej rychle, nebo tě promění v žábu!","kyblik");
-             Room pravyDungeon2 = new Room("pravyDungeon2", "Je tady dost horko, stojíš na mostě nad žhavou lávou.\n Zdá se ale, že to ohnivému elementálovi před tebou vyhovuje.","luk");
+             Room pravyDungeon = new Room("pravyDungeon", "Před tebou stojí vetchý oživlý kouzelník.\n Jednej rychle, nebo tě promění v žábu!","kyblik");
+             Room pravyMost = new Room("pravyMost", "Je tady dost horko, stojíš na mostě nad žhavou lávou.\n Zdá se ale, že to ohnivému elementálovi před tebou vyhovuje.","luk");
              Room kralovskaKrypta = new Room("kralovskaKrypta","Konečně jsi u cíle. Před tebou sedí na trůnu král Šalamoun – tedy to, co z něj zbylo. Na čele mu sedí kouzelná koruna, která svou září osvětluje místnost.","kralovska_pecet");
 
 
         /**
          * tvorba východů
          */
-        // vstup
-        vstupDoKatakomb.setExit(vstupniMistnost);
-        vstupniMistnost.setExit(leveRozcesti1);
-        vstupniMistnost.setExit(praveRozcesti1);
-        //levá část
-        leveRozcesti1.setExit(leveRozcesti2);
-        leveRozcesti1.setExit(levyDungeon1);
-        leveRozcesti2.setExit(hrobkaPrince);
-        leveRozcesti2.setExit(hrobkaRytiru);
-        leveRozcesti2.setExit(leveRozcesti1);
-        hrobkaPrince.setExit(leveRozcesti2);
-        hrobkaRytiru.setExit(leveRozcesti2);
-        levyDungeon1.setExit(leveRozcesti1);
-        levyDungeon1.setExit(levyDungeon2);
-        levyDungeon2.setExit(levyDungeon1);
-        levyDungeon2.setExit(stredKatakomb);
-        // pravá část
-        praveRozcesti1.setExit(praveRozcesti2);
-        praveRozcesti1.setExit(pravyDungeon1);
-        praveRozcesti2.setExit(studanka);
-        praveRozcesti2.setExit(loveckySalon);
-        praveRozcesti2.setExit(praveRozcesti1);
-        studanka.setExit(praveRozcesti2);
-        loveckySalon.setExit(leveRozcesti2);
-        pravyDungeon1.setExit(praveRozcesti1);
-        pravyDungeon1.setExit(pravyDungeon2);
-        pravyDungeon2.setExit(pravyDungeon1);
-        pravyDungeon2.setExit(stredKatakomb);
-        //střed
-        stredKatakomb.setExit(levyDungeon2);
-        stredKatakomb.setExit(pravyDungeon2);
-        stredKatakomb.setExit(prostredniChodba);
-        stredKatakomb.setExit(kralovskaKrypta);
-        kralovskaKrypta.setExit(stredKatakomb);
-        prostredniChodba.setExit(vstupniMistnost);
-        prostredniChodba.setExit(stredKatakomb);
+        // Mapa východů pro každou místnost
+        Map<Room, Room[]> exitsMap = new HashMap<>();
+
+        // Naplnění mapy místnostmi a jejich východy
+        exitsMap.put(vstupDoKatakomb, new Room[]{vstupniMistnost});
+        exitsMap.put(vstupniMistnost, new Room[]{levaChodba, pravaChodba});
+        exitsMap.put(levaChodba, new Room[]{leveRozcesti, levyDungeon});
+        exitsMap.put(leveRozcesti, new Room[]{hrobkaPrince, hrobkaRytiru, levaChodba});
+        exitsMap.put(hrobkaPrince, new Room[]{leveRozcesti});
+        exitsMap.put(hrobkaRytiru, new Room[]{leveRozcesti});
+        exitsMap.put(levyDungeon, new Room[]{levaChodba, levyMost});
+        exitsMap.put(levyMost, new Room[]{levyDungeon, stredKatakomb});
+        exitsMap.put(pravaChodba, new Room[]{praveRozcesti, pravyDungeon});
+        exitsMap.put(praveRozcesti, new Room[]{studanka, loveckySalon, pravaChodba});
+        exitsMap.put(studanka, new Room[]{praveRozcesti});
+        exitsMap.put(loveckySalon, new Room[]{praveRozcesti});
+        exitsMap.put(pravyDungeon, new Room[]{pravaChodba, pravyMost});
+        exitsMap.put(pravyMost, new Room[]{pravyDungeon, stredKatakomb});
+        exitsMap.put(stredKatakomb, new Room[]{levyMost, pravyMost, prostredniChodba, kralovskaKrypta});
+        exitsMap.put(kralovskaKrypta, new Room[]{stredKatakomb});
+        exitsMap.put(prostredniChodba, new Room[]{vstupniMistnost, stredKatakomb});
+
+        // Iterace skrze mapu a nastavení východů pro každou místnost
+        exitsMap.forEach((room, exitRooms) -> {
+            for (Room exitRoom : exitRooms) {
+                room.setExit(exitRoom);
+            }
+        });
 
 
 
@@ -129,9 +124,9 @@ public class GamePlan {
          * předměty, které jdou a nejdou sebrat
          */
         Item kralovska_pecet = new Item("kralovska_pecet",true,null);
-        Item klicZpet = new Item("klicZpet", true,null);
-        Item levaTruhla = new Item("levaTruhla1",false,null);
-        Item pravaTruhla = new Item("pravaTruhla1",false,null);
+        Item klic_zpet = new Item("klic_zpet", true,null);
+        Item levaTruhla = new Item("levaTruhla",false,"Něco jsi našel:\n");
+        Item pravaTruhla = new Item("pravaTruhla",false,"Něco jsi našel:\n");
         Item palcat = new Item("palcat",true,"Bum!");
         Item excalibur = new Item("excalibur",true,"Švihneš mečem.");
         Item luk = new Item("luk",true,"Natáhneš tětivu luku a vystřelíš.");
@@ -142,52 +137,66 @@ public class GamePlan {
         Item trun = new Item("trun",false,null);
         Item kral = new Item("kral",false,null);
         Item kostlivec = new Item("kostlivec",false,"Rytíř opět usl.");
-        Item elemental = new Item("elemental",false,"Vychrstnul jsi kyblík směrem na ohnivé stvoření. Elementál zasyčel a zhasl!");
+        Item elemental = new Item("elemental",false,"");
         Item carodej = new Item("carodej",false,"Čaroději jsi prostřelil lebku");
         Item mumie = new Item("oživlá mumie",false,"Mumii jsi rozsekl vejpůl");
         Item stary_klic = new Item("stary_klic",true,null);
         Item koruna = new Item("koruna",true,"Cítíš, jak tvoje mysl byla naplněna nekonečnou moudrostí.");
         Item stara_mince = new Item("stara_mince",true,"Vypadá cenně. venku se určitě bude dát prodat za spoustu peněz");
         Item zlata_lampa = new Item("zlata_lampa",true,"Vypadá kouzelně. Určitě má nesmírnou cenu.");
+        Item plny_kyblik = new Item("plny_kyblik",true,"Uhasí jakýkoli požár!" );
         // Nastavení interakcí
         excalibur.setInteraction("mumie","Mumie se rozpadla v prach.");
         palcat.setInteraction("kostlivec","Všimneš si, že něco třímal v ruce.");
         kyblik.setInteraction("elemental","V popelu se něco blýská.");
         kyblik.setInteraction("studna","Kyblík je nyní plný vody.");
         luk.setInteraction("carodej","Jednalo se králova bývalého rádce. Možná měl u sebe něco užitečného.");
-        levaTruhla.setInteraction("stary_klic","Víko se pohlo a odhalilo poklad!");
-        pravaTruhla.setInteraction("stary_klic","Víko se pohlo a odhalilo poklad!");
+        stary_klic.setInteraction("pravaTruhla","Víko se pohlo a odhalilo poklad!");
+        stary_klic.setInteraction("levaTruhla","Víko se pohlo a odhalilo poklad!");
+
         /**
          * Vygenerovaný loot
          */
         carodej.setGeneratedItem(kralovska_pecet);
         kostlivec.setGeneratedItem(kralovska_pecet);
+        mumie.setGeneratedItem(kralovska_pecet);
+        elemental.setGeneratedItem(kralovska_pecet);
+        kralovska_pecet.setAsLoot(true);
         levaTruhla.setGeneratedItem(stara_mince);
+        stara_mince.setAsLoot(true);
         pravaTruhla.setGeneratedItem(zlata_lampa);
-        //později přídám loot z elementála
+        zlata_lampa.setAsLoot(true);
+        studna.setGeneratedItem(plny_kyblik);
+        plny_kyblik.setAsLoot(true); //setAsLoot slouží k přehrání interactionMessage
+
         /**
          * vkládání věcí do prostoru
          */
-        vstupDoKatakomb.insertItem(stary_klic);
-        levyDungeon1.insertItem(mumie);
-        levyDungeon2.insertItem(kostlivec);
-        hrobkaPrince.insertItem(excalibur);
-        //hrobkaPrince.insertItem(kralovska_pecet);
-        hrobkaRytiru.insertItem(levaTruhla);
-        hrobkaRytiru.insertItem(palcat);
-        pravyDungeon1.insertItem(carodej);
-        pravyDungeon2.insertItem(elemental);
-        loveckySalon.insertItem(luk);
-        studanka.insertItem(kyblik);
-        studanka.insertItem(studna);
-        studanka.insertItem(kralovska_pecet);
-        studanka.insertItem(pravaTruhla);
-        stredKatakomb.insertItem(socha);
-        stredKatakomb.insertItem(sloup);
-        stredKatakomb.insertItem(klicZpet);
-        kralovskaKrypta.insertItem(trun);
-        kralovskaKrypta.insertItem(kral);
-        kralovskaKrypta.insertItem(koruna);
+        // Vytvoření mapy pro přiřazení položek do pokojů
+        Map<Room, List<Item>> roomItems = new HashMap<>();
+
+        // Přidání položek do mapy
+        roomItems.put(vstupDoKatakomb, Arrays.asList(stary_klic));
+        roomItems.put(levyDungeon, Arrays.asList(mumie)); // Změněno z levyDungeon1
+        roomItems.put(levyMost, Arrays.asList(kostlivec)); // Změněno z levyDungeon2
+        roomItems.put(hrobkaPrince, Arrays.asList(excalibur /*, kralovska_pecet */));
+        roomItems.put(hrobkaRytiru, Arrays.asList(levaTruhla, palcat));
+        roomItems.put(pravyDungeon, Arrays.asList(carodej));
+        roomItems.put(pravyMost, Arrays.asList(elemental));
+        roomItems.put(loveckySalon, Arrays.asList(luk,pravaTruhla));
+        roomItems.put(studanka, Arrays.asList(kyblik, studna));
+        roomItems.put(stredKatakomb, Arrays.asList(socha, sloup, klic_zpet));
+        roomItems.put(kralovskaKrypta, Arrays.asList(trun, kral, koruna));
+
+        // Procházení mapy a přidávání položek do pokojů
+        for (Map.Entry<Room, List<Item>> entry : roomItems.entrySet()) {
+            Room room = entry.getKey();
+            List<Item> items = entry.getValue();
+            for (Item item : items) {
+                room.insertItem(item);
+            }
+        }
+
 
 
 
