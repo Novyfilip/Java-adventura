@@ -18,10 +18,10 @@ public class InventoryTest {
      */
 
 
-    @BeforeEach
+    /*@BeforeEach
     public void setUp() {
         inventory.insertItem(new Item("pokemon2",true));
-    }
+    }*/
 
     /***************************************************************************
      * Úklid po testu - tato metoda se spustí po vykonání každé testovací metody.

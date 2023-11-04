@@ -3,8 +3,8 @@ module cz.vse.novf02 {
     requires javafx.fxml;
 
 
-    opens cz.vse.novf02 to javafx.fxml;
-    exports cz.vse.novf02;
+    opens cz.vse.novf02.main to javafx.fxml;
+    exports cz.vse.novf02.main;
     exports cz.vse.novf02.logic;
     opens cz.vse.novf02.logic to javafx.fxml;
     exports cz.vse.novf02.TextUI;
