@@ -152,7 +152,7 @@ public class Room {
      * @return text popisu veci
      */
     public String itemDescription() {
-        String returnedText = "Našel jsi: ";
+        String returnedText = "\nV místnosti se nachází: ";
         if(items.size()>0) {
             for (Map.Entry<String, Item> item : items.entrySet()) {
                 returnedText += item.getValue().getItemName() + ", ";
@@ -160,7 +160,7 @@ public class Room {
             return returnedText.substring(0, returnedText.length()-2);
         }
         else {
-            return returnedText += "Bohužel tu nic není...";
+            return "\nProstor je prázdný.";
         }
     }
     /**
@@ -262,6 +262,11 @@ public class Room {
     public Item removeItem(String name) {
         return items.remove(name);
     }
+
+
+
+
+
 
 
 }

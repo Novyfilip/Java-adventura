@@ -29,38 +29,42 @@ public class CommandTake implements ICommand {
         Room currentRoom = plan.getCurrentRoom();
 
         if (parametry.length == 0) {
-            // If no item name is provided, prompt the user.
-            return "Musíš upřesnit, co chceš!";
-        }
+            // If no item name is provided, ask for clarification
+            return "Musíš upřesnit, co chceš sebrat!";
+        } else {
+            String itemName = parametry[0];
+            if (!currentRoom.containsItem(itemName)) {
+                // If the item is not present in the current room
+                return "Nic takového tady není!";
+            }
 
-        String itemName = parametry[0];
-        if (currentRoom.containsItem(itemName)) {
             Item item = currentRoom.returnItem(itemName);
             if (!item.getCanCarry()) {
+                // Pokud se předmět nedá sebrat
                 return "Tohle rozhodně neuneseš!";
-            } else {
-                Inventory inventory = plan.getInventory();
-                if (inventory.containsItem(itemName)) {
-                    return "Tento předmět jsi už sebral.";
-                } else if (!inventory.isFull()) {
-                    item = currentRoom.removeItem(itemName);
-                    inventory.insertItem(item);
-
-                    // Check if the item is marked as loot and has an action message
-                    if (item.isLoot() && item.getActionMessage() != null) {
-                        return "Sebral jsi předmět " + item.getItemName() + ". " + item.getActionMessage();
-                    } else {
-                        return "Sebral jsi předmět " + item.getItemName();
-                    }
-                } else {
-                    return "Tvůj inventář je plný.";
-                }
             }
-        } else {
-            return "Nic takového tady není!";
+
+            Inventory inventory = plan.getInventory();
+            if (inventory.containsItem(itemName)) {
+                // If the item is already in the inventory
+                return "Tento předmět jsi už sebral.";
+            } /*else if (inventory.isEmpty()) {
+                // If the inventory is full
+                return "Tvůj inventář je plný.";
+            }*/ else {
+                // If the item can be picked up and there is room in the inventory
+                item = currentRoom.removeItem(itemName); // Removes the item from the room
+                inventory.insertItem(item); // Adds the item to the inventory
+
+                // Check if the item has an interaction message to print upon pickup
+                String pickupMessage = "Sebral jsi předmět " + item.getItemName() + ".";
+                 if (item.isLoot() && item.getActionMessage() != null) {
+                    pickupMessage += "\n" + item.getActionMessage();
+                }
+                return pickupMessage;
+            }
         }
     }
-
 
     /**
      *  Metoda vrací název příkazu (slovo které používá hráč pro jeho vyvolání)

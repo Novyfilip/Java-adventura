@@ -12,7 +12,7 @@ import java.util.Set;
 
 public class Inventory {
     private Map<String, Item> items = new HashMap<>();
-    private static final int capacity = 5;
+    private static final int capacity = 12;
 
 
     /**

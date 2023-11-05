@@ -58,7 +58,7 @@ public class Item {
      * @return Interaction message.
      */
     public String getActionMessage() {
-        return this.interactionMessage;
+        return this.actionMessage;
     }
 
     /**
@@ -72,7 +72,6 @@ public class Item {
             // Check if the target has loot to generate
             if (target.getGeneratedItem() != null) {
                 // Vytvoří loot a vloží ho do místnosti
-
                 currentRoom.insertItem(target.getGeneratedItem());
             }
             // Odstraní cíl po použití
@@ -84,6 +83,8 @@ public class Item {
         // If the target is not in the room or no interaction is possible
         return "Nelze použít " + this.name + " zde.";
     }
+
+
 
 
     //generování předmětů
@@ -99,6 +100,22 @@ public class Item {
     // Metoda na kontrolu, jestli je předmět pokladem
     public boolean isLoot() {
         return isLoot;
+    }
+
+    //Metoda pro naplnění kyblíku
+    private boolean isFilled = false;
+
+    // Method to fill the bucket
+    public void fill() {
+        if(this.name.equals("kyblik")) {
+            this.isFilled = true;
+            this.actionMessage = "Kyblík je nyní naplněný vodou.";
+        }
+    }
+
+    // Getter pro isFilled
+    public boolean isFilled() {
+        return isFilled;
     }
 
 
