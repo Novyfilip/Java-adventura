@@ -1,4 +1,7 @@
 package cz.vse.novf02.logic;
+import cz.vse.novf02.main.Pozorovatel;
+
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -11,6 +14,7 @@ public class CommandGo implements ICommand{
 
     private static final String title = "jdi";
     private GamePlan plan;
+
 
     /**
      *  Konstruktor třídy
@@ -52,7 +56,7 @@ public class CommandGo implements ICommand{
             }
         }
 
-        // Proceeding to another room (not going back)
+        // Přesun do dalši místnosti
         Room nextPotentialRoom = currentRoom.getExitByName(direction);
 
         if (nextPotentialRoom == null) {

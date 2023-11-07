@@ -15,7 +15,7 @@ import javafx.util.Duration;
 
 import java.util.Optional;
 
-public class HomeController {
+public class HomeController implements Pozorovatel{
     @FXML
     private ListView panelVychodu;
     @FXML
@@ -29,7 +29,7 @@ public class HomeController {
     private Game hra = new Game();
 
     private ObservableList<Room> seznamVychodu = FXCollections.observableArrayList();
-    @FXML
+    /*@FXML
     private void initialize() {
         vystup.appendText(game.returnStart()+"\n\n");
         Platform.runLater(new Runnable(){
@@ -37,9 +37,18 @@ public class HomeController {
             public void run(){
                 vstup.requestFocus();
                 panelVychodu.setItems(seznamVychodu);
+                game.getGamePlan().registruj(this);
             }
         });
 
+    }*/
+    @FXML
+    private void initialize() {
+        vystup.appendText(game.returnStart()+"\n\n");
+        Platform.runLater(() -> vstup.requestFocus());
+        panelVychodu.setItems(seznamVychodu);
+        game.getGamePlan().registruj(this);
+        aktualizujSeznamVychodu();
     }
     @FXML
     private void aktualizujSeznamVychodu(){
@@ -73,5 +82,15 @@ public class HomeController {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK)
         Platform.exit();
+    }
+
+    /**
+     *
+     */
+    @Override
+    public void aktualizuj() {
+        System.out.println("aktualizuji");
+        aktualizujSeznamVychodu();
+
     }
 }

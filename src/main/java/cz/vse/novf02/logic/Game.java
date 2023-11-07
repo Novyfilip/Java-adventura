@@ -54,14 +54,16 @@ public class Game implements IGame {
 
         // Kontrola výherní podmínky
         if (gamePlan.getCurrentRoom().containsItem("moudrost")) {
-            setEpilog("Gratulace! Objevil(a) jsi moc  koruny a vyhrál(a) hru!");
+            setEpilog("Gratulace! Objevil(a) jsi moc koruny a vyhrál(a) hru!");
             setGameEnd(true);
         }
 
-        if (gamePlan.getCurrentRoom().equals("vychod") && gamePlan.getInventory().containsItem("stara_mince") || gamePlan.getInventory().containsItem("zlata_lampa")) {
-            setEpilog("Gratulace! Odnášíš si nevyčíslitelné bohatství a vyhrál(a) jsi hru!");
-            setGameEnd(true);
-        }
+        if (gamePlan.getInventory().containsItem("prastara_mince") && gamePlan.getInventory().containsItem("zlata_lampa")) {
+            setEpilog("Gratulace! Podařilo se ti najít bohatství, o kterém se ti ani nesnilo a vyhrál(a) jsi hru!");
+            setGameEnd(true);}
+        if (gamePlan.getCurrentRoom().equals("vychod") && gamePlan.getInventory().containsItem("koruna"))    {
+            setEpilog("Gratulace! Podařilo se ti utéct s korunou v batohu. Vyhrál(a) jsi hru!");
+            setGameEnd(true);}
 
         return textToPrint;
     }

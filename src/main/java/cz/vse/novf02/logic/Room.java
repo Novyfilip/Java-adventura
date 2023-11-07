@@ -267,4 +267,11 @@ public class Room {
     public String toString() {
         return getRoomName();
     }
+
+    /*public boolean isEnemyDefeated(String name) {
+        return !this.containsItem(name);
+    }//Přidání podmínky poražení nepřítele
+    private boolean enemyDefeated;
+    this.enemyDefeated = enemyDefeated;*/
+
 }
