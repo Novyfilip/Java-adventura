@@ -2,8 +2,12 @@ package cz.vse.novf02.main;
 
 import cz.vse.novf02.logic.Game;
 import cz.vse.novf02.logic.IGame;
+import cz.vse.novf02.logic.Room;
+import cz.vse.novf02.logic.GamePlan;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -13,6 +17,8 @@ import java.util.Optional;
 
 public class HomeController {
     @FXML
+    private ListView panelVychodu;
+    @FXML
     private Button tlacitkoOdesli;
     @FXML
     private TextField vstup;
@@ -20,6 +26,9 @@ public class HomeController {
     private TextArea vystup;
 
     private IGame game = new Game();
+    private Game hra = new Game();
+
+    private ObservableList<Room> seznamVychodu = FXCollections.observableArrayList();
     @FXML
     private void initialize() {
         vystup.appendText(game.returnStart()+"\n\n");
@@ -27,9 +36,15 @@ public class HomeController {
             @Override
             public void run(){
                 vstup.requestFocus();
+                panelVychodu.setItems(seznamVychodu);
             }
         });
 
+    }
+    @FXML
+    private void aktualizujSeznamVychodu(){
+        seznamVychodu.clear();
+        seznamVychodu.addAll(game.getGamePlan().getCurrentRoom().getExits());
     }
     private void closeWindow() {
         PauseTransition delay = new PauseTransition(Duration.seconds(10));

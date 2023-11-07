@@ -2,16 +2,18 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane fx:controller="cz.vse.novf02.main.HomeController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.vse.novf02.main.HomeController">
   <columnConstraints>
     <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
@@ -25,30 +27,33 @@
         <menus>
           <Menu mnemonicParsing="false" text="Hra">
             <items>
-              <MenuItem onAction="#ukončitHru" mnemonicParsing="false" text="Ukončit" />
+              <MenuItem mnemonicParsing="false" onAction="#ukončitHru" text="Ukončit" />
+              <MenuItem text="Aktualizuj" onAction="#aktualizujSeznamVychodu" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
+
         </menus>
       </MenuBar>
-      <TextArea fx:id="vystup"  editable="false"  GridPane.rowIndex="1">
-         <padding>
-            <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-         </padding>
-      </TextArea>
-      <TextField  fx:id="vstup" onAction="#odesliVstup" GridPane.rowIndex="2">
+      <TextField fx:id="vstup" onAction="#odesliVstup" GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets left="4.0" right="64.0" />
          </GridPane.margin>
       </TextField>
-      <Button onAction="#odesliVstup" mnemonicParsing="false" text="Odeslat" GridPane.rowIndex="2">
+      <Button mnemonicParsing="false" onAction="#odesliVstup" text="Odeslat" GridPane.rowIndex="2">
          <GridPane.margin>
             <Insets right="4.0" />
          </GridPane.margin>
       </Button>
+      <SplitPane dividerPositions="0.3" GridPane.rowIndex="1">
+         <items>
+             <ListView fx:id="panelVychodu" prefHeight="200.0" />
+             <TextArea fx:id="vystup" editable="false">
+               <padding>
+                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+               </padding>
+            </TextArea>
+
+         </items>
+      </SplitPane>
    </children>
 </GridPane>

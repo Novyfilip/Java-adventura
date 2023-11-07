@@ -90,19 +90,19 @@ public class GamePlan {
         exitsMap.put(vstupniMistnost, new Room[]{leveRozcesti, praveRozcesti});
         //exitsMap.put(levaChodba, new Room[]{leveRozcesti, levyDungeon});
         exitsMap.put(leveRozcesti, new Room[]{hrobkaPrince, hrobkaRytiru, levyDungeon, vstupniMistnost,pokladnice});
-        exitsMap.put(hrobkaPrince, new Room[]{leveRozcesti, pokladnice});
-        exitsMap.put(hrobkaRytiru, new Room[]{leveRozcesti, pokladnice});
+        exitsMap.put(hrobkaPrince, new Room[]{leveRozcesti});
+        exitsMap.put(hrobkaRytiru, new Room[]{leveRozcesti});
         exitsMap.put(levyDungeon, new Room[]{leveRozcesti, levyMost});
         exitsMap.put(levyMost, new Room[]{levyDungeon, stredKatakomb});
         //exitsMap.put(pravaChodba, new Room[]{praveRozcesti, pravyDungeon});
         exitsMap.put(praveRozcesti, new Room[]{studanka, loveckySalon, pravyDungeon, vstupniMistnost, pokladnice});
-        exitsMap.put(studanka, new Room[]{praveRozcesti, pokladnice});
-        exitsMap.put(loveckySalon, new Room[]{praveRozcesti, pokladnice});
+        exitsMap.put(studanka, new Room[]{praveRozcesti});
+        exitsMap.put(loveckySalon, new Room[]{praveRozcesti});
         exitsMap.put(pravyDungeon, new Room[]{praveRozcesti, pravyMost});
         exitsMap.put(pravyMost, new Room[]{pravyDungeon, stredKatakomb});
-        exitsMap.put(stredKatakomb, new Room[]{levyMost, pravyMost, vychod, kralovskaKrypta});
+        exitsMap.put(stredKatakomb, new Room[]{levyMost, pravyMost, kralovskaKrypta});
         exitsMap.put(kralovskaKrypta, new Room[]{stredKatakomb, pokladnice});
-        exitsMap.put(vychod, new Room[]{vstupDoKatakomb, stredKatakomb});
+        exitsMap.put(vychod, new Room[]{vstupDoKatakomb, kralovskaKrypta});
         exitsMap.put(pokladnice, new Room[]{kralovskaKrypta, stredKatakomb});
 
         // Iterace skrze mapu a nastavení východů pro každou místnost

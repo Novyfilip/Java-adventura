@@ -124,7 +124,7 @@ public class Room {
      * @return Dlouhý popis prostoru
      */
     public String longDescription(Inventory playerInventory) {
-        return "You have entered: " + description + "\n"
+        return "Nyní jsi v: " + description + "\n"
                 + exitDescription(playerInventory);
     }
 
@@ -263,10 +263,8 @@ public class Room {
         return items.remove(name);
     }
 
-
-
-
-
-
-
+    @Override
+    public String toString() {
+        return getRoomName();
+    }
 }

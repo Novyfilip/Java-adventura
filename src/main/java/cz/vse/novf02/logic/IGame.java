@@ -41,4 +41,5 @@ public interface IGame {
     public String processCommand(String inputRow);
 
 
+    GamePlan getGamePlan();
 }
