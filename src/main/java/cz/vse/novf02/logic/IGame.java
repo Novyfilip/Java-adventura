@@ -1,5 +1,7 @@
 package cz.vse.novf02.logic;
 
+import cz.vse.novf02.main.PredmetPozorovani;
+
 /**
  *  Rozhraní které musí implementovat hra, je na ně navázáno uživatelské rozhraní
  *
@@ -7,7 +9,7 @@ package cz.vse.novf02.logic;
  *@version    pro školní rok 2020/2021
  */
 
-public interface IGame {
+public interface IGame extends PredmetPozorovani {
 
 
     /**

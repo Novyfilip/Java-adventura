@@ -2,6 +2,7 @@ package cz.vse.novf02.logic;
 import cz.vse.novf02.main.HomeController;
 import cz.vse.novf02.main.Pozorovatel;
 import cz.vse.novf02.main.PredmetPozorovani;
+import cz.vse.novf02.main.ZmenaHry;
 
 
 import java.util.*;
@@ -28,7 +29,7 @@ public class GamePlan implements PredmetPozorovani {
     private Item stary_klic;
     //Evidence předchozí místnosti pro návrat zpět
     private Room previousRoom = null;
-    private Set<Pozorovatel> seznamPozorovatelu = new HashSet<>();
+    private Map<ZmenaHry, Set <Pozorovatel>> seznamPozorovatelu = new HashMap<>();
 
 
     public Room getPreviousRoom() {
@@ -59,13 +60,16 @@ public class GamePlan implements PredmetPozorovani {
      */
     public GamePlan() {
         createGame();
+        for(ZmenaHry zmenaHry : ZmenaHry.values()){
+            seznamPozorovatelu.put(zmenaHry, new HashSet<>());
+        }
     }
+
     private void createGame(){
        // vytvářejí se jednotlivé Prostory
         vstupDoKatakomb = new Room("vstupDoKatakomb","Vstup do podzemí");
 
         Room vstupniMistnost = new Room("vstupniMistnost", "Dveře se otevřely a ty se nacházíš ve vstupní síni. Je tu zima a tma.","stary_klic");
-             //Room levaChodba = new Room("levaChodba","Šel jsi levou chodbou, cesta za tebou se ale bohužel zasypala obřími kameny. To bylo těsné! Můžeš jít do místnosti vpravo nebo pokračovat chodbou dál.");
              Room leveRozcesti = new Room("leveRozcesti","Šel jsi levou chodbou, cesta za tebou se ale bohužel zasypala obřími kameny. To bylo těsné!\n Zde chodba končí. Po pravé straně je hrobka prince Philipa, zatímco na konci chodby je hrobka významných rytířů.");
              Room hrobkaPrince = new Room("hrobkaPrince","Vešel jsi do hrobky prince Philipa.\n Oficiálně se dožil 99 let, ale šuškalo se o něm, že je ve skutečnosti 1000 let starý upír.");
              Room hrobkaRytiru = new Room("hrobkaRytiru", "Vstoupil jsi do komnaty, kde jsou pohřbeni nejvýznamnější členové královské stráže. Jeden sarkofág je pootevřený a v něm vidíš ležícího rytíře s pořádným palcátem v ruce. Že by Jan Žižka?");
@@ -74,7 +78,6 @@ public class GamePlan implements PredmetPozorovani {
              Room stredKatakomb = new Room("stredKatakomb","Nacházíš se v samém srdci katakomb. Na východě vidíš jakési světlo, na jihu dveře, které musí vést do vstupní místnosti a na severu vstup tak honosný, že to může být jen krypta krále Šalamouna.\n" +
                       "Na kamenných dveřích vidíš jakýsi kruh. Po bližším ohledání vidíš, že se tam musí vložit královská pečeť.\n","kralovska_pecet");
              Room vychod = new Room("vychod","Našel jsi cestu zpět. Hurá!","klic_zpet");
-             //Room pravaChodba = new Room("pravaChodba","Šel jsi pravou chodbou, cesta za tebou se ale bohužel zasypala obřími kameny. To bylo těsné! Můžeš jít do místnosti vlevo nebo pokračovat chodbou dál.\n");
              Room praveRozcesti = new Room("praveRozcesti","Šel jsi pravou chodbou, cesta za tebou se ale bohužel zasypala obřími kameny. To bylo těsné!\n Zde chodba končí. Po levé straně je lovecký salon, zatímco na konci chodby slyšíš kapající vodu.");
              Room studanka = new Room("studanka", "Před sebou vidíš, jak pramen vvvěrá do studánky.\n Osvěžíš se a hned je ti lépe.\n Zdá se, že tu byla vytvořena pro případ požáru.");
              Room loveckySalon = new Room("loveckySalon", "Vstoupil jsi do místnosti plné loveckého vybavení.\n Dle dobových záznamů by tu mohl být luk Robina Hooda.");
@@ -226,6 +229,7 @@ public class GamePlan implements PredmetPozorovani {
     }
 
 
+
     /**
      *  Metoda vrací odkaz na aktuální prostor, ve ktetém se hráč právě nachází.
      *
@@ -243,10 +247,9 @@ public class GamePlan implements PredmetPozorovani {
      */
     public void setCurrentRoom(Room room) {
         currentRoom = room;
-        for (Pozorovatel pozorovatel : seznamPozorovatelu) {
-            pozorovatel.aktualizuj();
+        upozorniPozorovatele(ZmenaHry.ZMENA_MISTNOSTI);
         }
-    }
+
 
     /**
      * vrati inventar
@@ -272,10 +275,15 @@ public class GamePlan implements PredmetPozorovani {
      * @param pozorovatel
      */
     @Override
-    public void registruj(Pozorovatel pozorovatel) {
-        seznamPozorovatelu.add(pozorovatel);
+    public void registruj(ZmenaHry zmenaHry, Pozorovatel pozorovatel) {
+        seznamPozorovatelu.get(zmenaHry).add(pozorovatel);
         //debugging System.out.println("Pozorovatel " + pozorovatel + " byl zaregistrován.");
 
+    }
+    public void upozorniPozorovatele(ZmenaHry zmenaHry){
+        for(Pozorovatel pozorovatel : seznamPozorovatelu.get(zmenaHry)) {
+            pozorovatel.aktualizuj();
+        }
     }
 
 

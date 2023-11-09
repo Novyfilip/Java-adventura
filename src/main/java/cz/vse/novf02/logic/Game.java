@@ -1,11 +1,22 @@
 package cz.vse.novf02.logic;
 
+import cz.vse.novf02.main.Pozorovatel;
+import cz.vse.novf02.main.PredmetPozorovani;
+import cz.vse.novf02.main.ZmenaHry;
+
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 public class Game implements IGame {
 
     private CommandList validCommands;
     private GamePlan gamePlan;
     private boolean gameEnd = false;
     private String epilog = "Konec hry.";
+    //private Inventory inventory;
+    private Map<ZmenaHry, Set<Pozorovatel>> seznamPozorovatelu = new HashMap<>();
 
     public Game() {
         gamePlan = new GamePlan();
@@ -22,8 +33,10 @@ public class Game implements IGame {
         validCommands.insertCommand(new CommandInventory(gamePlan));
         validCommands.insertCommand(new CommandRestart(gamePlan));
         validCommands.insertCommand(new CommandUse(gamePlan));
+        for (ZmenaHry zmenaHry : ZmenaHry.values()) {
+            seznamPozorovatelu.put(zmenaHry,new HashSet<>());
+        }
     }
-
     public String returnStart() {
         return "Vítejte ve hře Tajemná krypta!\n Právě se nacházíš u vstupu do královských katakomb,\n kde se nachází hrobka bájného krále Šalamouna.\n Dveře jsou sice zamčené, ale čirou náhodou leží klíč pohozený přímo před nimi.\n Dnes je tvůj šťastný den!\n" +
                 "Napište 'nápověda', pokud si nevíte rady, jak hrát dál.";
@@ -78,5 +91,21 @@ public class Game implements IGame {
 
     public void setEpilog(String epilog) {
         this.epilog = epilog;
+    }
+
+    /**
+     * @param zmenaHry
+     * @param pozorovatel
+     */
+    @Override
+    public void registruj(ZmenaHry zmenaHry, Pozorovatel pozorovatel) {
+        seznamPozorovatelu.get(zmenaHry).add(pozorovatel);
+        //debugging System.out.println("Pozorovatel " + pozorovatel + " byl zaregistrován.");
+
+    }
+    public void upozorniPozorovatele(ZmenaHry zmenaHry){
+        for(Pozorovatel pozorovatel : seznamPozorovatelu.get(zmenaHry)) {
+            pozorovatel.aktualizuj();
+        }
     }
 }

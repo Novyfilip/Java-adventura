@@ -12,7 +12,7 @@ import java.util.Set;
 
 public class CommandGo implements ICommand{
 
-    private static final String title = "jdi";
+    public static final String title = "jdi";
     private GamePlan plan;
 
 
