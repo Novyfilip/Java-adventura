@@ -9,45 +9,51 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.vse.novf02.main.HomeController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.vse.novf02.main.HomeController">
   <columnConstraints>
     <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
   <rowConstraints>
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    <RowConstraints vgrow="ALWAYS" />
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
+      <RowConstraints vgrow="NEVER" />
+    <RowConstraints prefHeight="1.0" vgrow="SOMETIMES" />
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="NEVER" />
   </rowConstraints>
    <children>
-      <MenuBar GridPane.valignment="TOP" GridPane.vgrow="SOMETIMES">
+      <MenuBar prefHeight="29.0" prefWidth="601.0" GridPane.valignment="TOP" GridPane.vgrow="NEVER">
         <menus>
           <Menu mnemonicParsing="false" text="Hra">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#ukončitHru" text="Ukončit" />
-              <MenuItem text="Aktualizuj" onAction="#aktualizujSeznamVychodu" />
+              <MenuItem onAction="#aktualizujSeznamVychodu" text="Aktualizuj" />
             </items>
           </Menu>
 
         </menus>
       </MenuBar>
-      <TextField fx:id="vstup" onAction="#odesliVstup" GridPane.rowIndex="2">
+      <TextField fx:id="vstup" onAction="#odesliVstup" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets left="4.0" right="64.0" />
          </GridPane.margin>
       </TextField>
-      <Button mnemonicParsing="false" onAction="#odesliVstup" text="Odeslat" GridPane.rowIndex="2">
+      <Button mnemonicParsing="false" onAction="#odesliVstup" text="Odeslat" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets right="4.0" />
          </GridPane.margin>
       </Button>
-      <SplitPane dividerPositions="0.3" GridPane.rowIndex="1">
+      <SplitPane dividerPositions="0.2" GridPane.rowIndex="2">
          <items>
-             <ListView onMouseClicked="#klikPanelVychodu" fx:id="panelVychodu" prefHeight="200.0" />
-             <TextArea fx:id="vystup" editable="false">
+             <ListView fx:id="panelVychodu" onMouseClicked="#klikPanelVychodu" prefHeight="172.0" prefWidth="119.0" />
+             <TextArea fx:id="vystup" editable="false" prefHeight="172.0" prefWidth="431.0">
                <padding>
                   <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
                </padding>
@@ -55,5 +61,27 @@
 
          </items>
       </SplitPane>
+      <TitledPane animated="false" contentDisplay="TOP" text="Mapa" GridPane.rowIndex="1">
+         <content>
+            <HBox alignment="TOP_CENTER" prefWidth="590.0">
+               <children>
+                  <Pane>
+                     <children>
+                        <ImageView fitHeight="330.0" fitWidth="480.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@adventuraAssets/herniPlan.jpg" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="hrac" fitHeight="45.0" fitWidth="67.0" layoutX="221.0" layoutY="225.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@adventuraAssets/hrac.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
+               </children>
+            </HBox>
+         </content>
+      </TitledPane>
    </children>
 </GridPane>

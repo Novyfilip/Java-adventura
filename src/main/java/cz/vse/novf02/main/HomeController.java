@@ -7,13 +7,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 public class HomeController{
+    @FXML
+    private ImageView hrac;
     @FXML
     private ListView<Room> panelVychodu;
     @FXML
@@ -27,32 +33,54 @@ public class HomeController{
 
 
     private ObservableList<Room> seznamVychodu = FXCollections.observableArrayList();
-    /*@FXML
-    private void initialize() {
-        vystup.appendText(game.returnStart()+"\n\n");
-        Platform.runLater(new Runnable(){
-            @Override
-            public void run(){
-                vstup.requestFocus();
-                panelVychodu.setItems(seznamVychodu);
-                game.getGamePlan().registruj(this);
-            }
-        });
-
-    }*/
+    private Map <String, Point2D> souradniceProstoru = new HashMap<>();
     @FXML
     private void initialize() {
         vystup.appendText(game.returnStart()+"\n\n");
         Platform.runLater(() -> vstup.requestFocus());
         panelVychodu.setItems(seznamVychodu);
-        game.getGamePlan().registruj(ZmenaHry.ZMENA_MISTNOSTI,()-> aktualizujSeznamVychodu());
+        game.getGamePlan().registruj(ZmenaHry.ZMENA_MISTNOSTI,()-> {
+            aktualizujSeznamVychodu();
+            aktualizujPolohuHrace();
+        });
         game.registruj(ZmenaHry.KONEC_HRY,() ->aktualizujKonecHry());
         aktualizujSeznamVychodu();
+        vlozSouradnice();
+
+
     }
+
+    private void vlozSouradnice() {
+        souradniceProstoru.put("vstupDoKatakomb", new Point2D(210,225));
+        souradniceProstoru.put("vstupniMistnost", new Point2D(216,168));
+        souradniceProstoru.put("leveRozcesti", new Point2D(80,150));
+        souradniceProstoru.put("loveckySalon", new Point2D(15,150));
+        souradniceProstoru.put("hrobkaPrince", new Point2D(15,90));
+        souradniceProstoru.put("levyDungeon", new Point2D(111,111));
+        souradniceProstoru.put("levyMost", new Point2D(110,67));
+        souradniceProstoru.put("pokladnice", new Point2D(100,22));
+        souradniceProstoru.put("kralovskaKrypta", new Point2D(210,22));
+        souradniceProstoru.put("zlataSin", new Point2D(304,22));
+        souradniceProstoru.put("pravyMost", new Point2D(309,69));
+        souradniceProstoru.put("stredKatakomb", new Point2D(210,90));
+        souradniceProstoru.put("pravyDungeon", new Point2D(280,113));
+        souradniceProstoru.put("studanka", new Point2D(390,100));
+        souradniceProstoru.put("hrobkaRytiru", new Point2D(400,150));
+        souradniceProstoru.put("praveRozcesti", new Point2D(333,133));
+        souradniceProstoru.put("vychod", new Point2D(415,225));
+    }
+
     @FXML
     private void aktualizujSeznamVychodu(){
         seznamVychodu.clear();
         seznamVychodu.addAll(game.getGamePlan().getCurrentRoom().getExits());
+    }
+
+    private void aktualizujPolohuHrace(){
+        String prostor = game.getGamePlan().getCurrentRoom().getRoomName();
+        hrac.setLayoutX(souradniceProstoru.get(prostor).getX());
+        hrac.setLayoutY(souradniceProstoru.get(prostor).getY());
+
     }
     private void aktualizujKonecHry() {
         System.out.println("aktualizuji konec");
