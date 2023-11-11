@@ -97,13 +97,13 @@ public class GamePlan implements PredmetPozorovani {
         exitsMap.put(vstupDoKatakomb, new Room[]{vstupniMistnost});
         exitsMap.put(vstupniMistnost, new Room[]{leveRozcesti, praveRozcesti});
         //exitsMap.put(levaChodba, new Room[]{leveRozcesti, levyDungeon});
-        exitsMap.put(leveRozcesti, new Room[]{hrobkaPrince, loveckySalon, levyDungeon});
+        exitsMap.put(leveRozcesti, new Room[]{hrobkaPrince, loveckySalon, levyDungeon, vstupniMistnost});
         exitsMap.put(hrobkaPrince, new Room[]{leveRozcesti});
         exitsMap.put(hrobkaRytiru, new Room[]{praveRozcesti});
         exitsMap.put(levyDungeon, new Room[]{leveRozcesti, levyMost});
         exitsMap.put(levyMost, new Room[]{levyDungeon, stredKatakomb});
         //exitsMap.put(pravaChodba, new Room[]{praveRozcesti, pravyDungeon});
-        exitsMap.put(praveRozcesti, new Room[]{studanka, hrobkaRytiru, pravyDungeon});
+        exitsMap.put(praveRozcesti, new Room[]{studanka, hrobkaRytiru, pravyDungeon, vstupniMistnost});
         exitsMap.put(studanka, new Room[]{praveRozcesti});
         exitsMap.put(loveckySalon, new Room[]{leveRozcesti});
         exitsMap.put(pravyDungeon, new Room[]{praveRozcesti, pravyMost});

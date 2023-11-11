@@ -17,6 +17,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.vse.novf02.main.HomeController">
   <columnConstraints>
@@ -34,7 +37,7 @@
           <Menu mnemonicParsing="false" text="Hra">
             <items>
               <MenuItem mnemonicParsing="false" onAction="#ukončitHru" text="Ukončit" />
-              <MenuItem onAction="#aktualizujSeznamVychodu" text="Aktualizuj" />
+              <MenuItem onAction="#napovedaKlik" text="Nápověda" />
             </items>
           </Menu>
 
@@ -50,14 +53,32 @@
             <Insets right="4.0" />
          </GridPane.margin>
       </Button>
-      <SplitPane dividerPositions="0.2" GridPane.rowIndex="2">
+      <SplitPane dividerPositions="0.24" GridPane.rowIndex="2">
          <items>
              <ListView fx:id="panelVychodu" onMouseClicked="#klikPanelVychodu" prefHeight="172.0" prefWidth="119.0" />
-             <TextArea fx:id="vystup" editable="false" prefHeight="172.0" prefWidth="431.0">
-               <padding>
-                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-               </padding>
-            </TextArea>
+             <VBox prefWidth="225.0">
+               <SplitPane dividerPositions="0.5" prefHeight="167.0" prefWidth="451.0">
+                 <items>
+                       <TextArea fx:id="vystup" editable="false" minWidth="-Infinity" prefHeight="157.0" prefWidth="300.0">
+                           <padding>
+                               <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                           </padding>
+                       </TextArea>
+                     <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="187.0" prefWidth="142.0">
+                       <items>
+                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Aktuální prostor">
+                              <font>
+                                 <Font name="Poor Richard" size="16.0" />
+                              </font>
+                           </Text>
+                           <ImageView fx:id="currentRoomImageView" fitHeight="142.0" fitWidth="142.0" pickOnBounds="true" preserveRatio="true" />
+                       </items>
+                     </SplitPane>
+                 </items>
+               </SplitPane>
+             </VBox>
+
+             
 
          </items>
       </SplitPane>
@@ -83,5 +104,8 @@
             </HBox>
          </content>
       </TitledPane>
+
+
+
    </children>
 </GridPane>

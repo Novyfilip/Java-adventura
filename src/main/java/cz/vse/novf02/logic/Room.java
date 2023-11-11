@@ -18,7 +18,8 @@ public class Room {
     private String description;
     private Set<Room> exits;
     private Map<String, Item> items;
-    private String requiredItem; // Changed from Set to String
+    private String requiredItem;
+    private GamePlan game;// Changed from Set to String
 
     // Adjusted constructor
     public Room(String roomName, String description, String requiredItem) {
@@ -124,7 +125,7 @@ public class Room {
      * @return Dlouhý popis prostoru
      */
     public String longDescription(Inventory playerInventory) {
-        return "Nyní jsi v: " + description + "\n"
+        return description + "\n"
                 + exitDescription(playerInventory);
     }
 
@@ -265,13 +266,13 @@ public class Room {
 
     @Override
     public String toString() {
-        return getRoomName();
+        return this.roomName;
     }
 
-    /*public boolean isEnemyDefeated(String name) {
-        return !this.containsItem(name);
-    }//Přidání podmínky poražení nepřítele
-    private boolean enemyDefeated;
-    this.enemyDefeated = enemyDefeated;*/
+
+
+
+
+
 
 }
