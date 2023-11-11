@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
@@ -203,8 +204,12 @@ public class HomeController {
 
     public void napovedaKlik(ActionEvent actionEvent) {
         Stage napovedaStage = new Stage();
-        Scene napovedaScena  = new Scene(new Button());
+        WebView wv = new WebView();
+        Scene napovedaScena  = new Scene(wv);
+        napovedaStage.setScene(napovedaScena);
         napovedaStage.show();
+        wv.getEngine().load(getClass().getResource("napoveda.html").toExternalForm());
     }
+
 }
 

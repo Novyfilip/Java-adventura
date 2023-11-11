@@ -74,7 +74,7 @@ public class Game implements IGame {
         if (gamePlan.getInventory().containsItem("prastara_mince") && gamePlan.getInventory().containsItem("zlata_lampa")) {
             setEpilog("Gratulace! Podařilo se ti najít bohatství, o kterém se ti ani nesnilo a vyhrál(a) jsi hru!");
             setGameEnd(true);}
-        if (gamePlan.getCurrentRoom().equals("vychod") && gamePlan.getInventory().containsItem("koruna"))    {
+        if (gamePlan.getCurrentRoom().toString().equals("vychod") && gamePlan.getInventory().containsItem("koruna"))    {
             setEpilog("Gratulace! Podařilo se ti utéct s korunou v batohu. Vyhrál(a) jsi hru!");
             setGameEnd(true);}
 

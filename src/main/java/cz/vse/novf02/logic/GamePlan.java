@@ -74,7 +74,7 @@ public class GamePlan implements PredmetPozorovani {
              Room hrobkaPrince = new Room("hrobkaPrince","Vešel jsi do hrobky prince Philipa.\n Oficiálně se dožil 99 let, ale šuškalo se o něm, že je ve skutečnosti 1000 let starý upír.");
              Room hrobkaRytiru = new Room("hrobkaRytiru", "Vstoupil jsi do komnaty, kde jsou pohřbeni nejvýznamnější členové královské stráže. Jeden sarkofág je pootevřený a v něm vidíš ležícího rytíře s pořádným palcátem v ruce. Že by Jan Žižka?");
              Room levyDungeon = new Room("levyDungeon", "Při vstupu do místnosti uslyšíš šoupání po podlaze.  Jsou to oživlé mumie! Bojuj nebo uteč!");
-             Room levyMost = new Room("levyMost","Na druhém konci místnosti stojí nemrtvý čaroděj.\n Jednej rychle, nebo tě promění v žábu!","kralovska_pecet");
+             Room levyMost = new Room("levyMost","Na druhém konci místnosti stojí nemrtvý čaroděj.\n Jednej rychle, nebo tě promění v žábu!");
              Room stredKatakomb = new Room("stredKatakomb","Nacházíš se v samém srdci katakomb. Na východě vidíš jakési světlo, na jihu dveře, které musí vést do vstupní místnosti a na severu vstup tak honosný, že to může být jen krypta krále Šalamouna.\n" +
                       "Na kamenných dveřích vidíš jakýsi kruh. Po bližším ohledání vidíš, že se tam musí vložit královská pečeť.\n","kralovska_pecet");
              Room vychod = new Room("vychod","Našel jsi cestu zpět. Hurá!","klic_zpet");

@@ -6,7 +6,7 @@
 
     <groupId>cz.vse</groupId>
     <artifactId>novf02</artifactId>
-    <version>0.7.1</version>
+    <version>0.8.0-SNAPSHOT</version>
     <name>adventura</name>
 
     <properties>
@@ -27,10 +27,13 @@
             <version>17.0.6</version>
         </dependency>
 
+
+    </dependencies>-->
+    <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>${junit.version}</version>
+            <version>5.9.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -39,8 +42,15 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-    </dependencies>-->
+    <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-web</artifactId>
+        <version>17.0.6</version>
+    </dependency>
 
+
+
+    </dependencies>
     <build>
         <plugins>
             <plugin>
@@ -73,6 +83,7 @@
                     </execution>
                 </executions>
             </plugin>
+
         </plugins>
     </build>
 </project>
