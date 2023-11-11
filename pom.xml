@@ -6,7 +6,7 @@
 
     <groupId>cz.vse</groupId>
     <artifactId>novf02</artifactId>
-    <version>0.8.0-SNAPSHOT</version>
+    <version>0.9.1-SNAPSHOT</version>
     <name>adventura</name>
 
     <properties>
