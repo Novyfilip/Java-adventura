@@ -1,8 +1,6 @@
 package cz.vse.novf02.logic;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+
 /**
  * Class Inventory - inventar, kde se uchovavani sebrane predmety
  * muzememe si ho kdykoliv zobrazit prikazem inventory
@@ -106,8 +104,12 @@ public class Inventory {
      * @return the item if found, null otherwise
      */
     public Item getItem(String itemName) {
-        return items.get(itemName); // This will return null if the item doesn't exist
+        return items.get(itemName);
     }
+    public Collection<Item> getAllItems() {
+        return items.values();
+    }
+
 
 
 

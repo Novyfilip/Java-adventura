@@ -9,13 +9,26 @@ public class Item {
     private String interactionMessage; // Message shown when this item interacts with interactionItem
     private Item generatedItem; //loot z nepřátel a truhel
     private boolean isLoot; // flag pro speciální zprávu při sebrání
+    private String imagePath; // Cesta k obrázku
+
+    // Konstruktor
+    public String getImagePath() {
+        return imagePath;
+    }
+    public void setImagePath() {
+        this.imagePath = constructImagePath(name);
+    }
+    private String constructImagePath(String itemName) {
+        return "/cz/vse/novf02/main/adventuraAssets/predmety/" + itemName + ".png";
+    }
 
     public Item(String name, boolean canCarry, String actionMessage) {
         this.name = name;
         this.canCarry = canCarry;
         this.actionMessage = actionMessage;
-        this.interactionItem = null; // Defaulted to null; can be set later
-        this.interactionMessage = null; // Defaulted to null; can be set later
+        this.interactionItem = null;
+        this.interactionMessage = null;
+        this.imagePath = constructImagePath(name);
     }
 
     public String getItemName() {
@@ -77,10 +90,10 @@ public class Item {
             // Odstraní cíl po použití
             currentRoom.removeItem(target.getItemName());
 
-            // Return the interaction message or any confirmation message that the action was successful
+            // Vrátí hlášku o úspěchu
             return this.interactionMessage;
         }
-        // If the target is not in the room or no interaction is possible
+        // Pokud cíl není v místnosti
         return "Nelze použít " + this.name + " zde.";
     }
 

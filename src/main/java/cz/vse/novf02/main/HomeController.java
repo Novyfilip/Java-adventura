@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -84,7 +85,7 @@ public class HomeController {
                 }
             });
 
-            // Remaining initialization code...
+
         }
 
 
@@ -210,6 +211,29 @@ public class HomeController {
         napovedaStage.show();
         wv.getEngine().load(getClass().getResource("napoveda.html").toExternalForm());
     }
+    @FXML
+    private void otevriInventar(ActionEvent event) {
+        try {
+            // Create a FXMLLoader instance
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/cz/vse/novf02/main/inventory.fxml")); // Adjust the path if necessary
+            Parent root = loader.load(); // Load the FXML
 
+            // Get the controller and set the game instance
+            InventoryController inventoryController = loader.getController();
+            inventoryController.setGame(game, vystup);
+
+            // Create a new stage (window) for the inventory
+            Stage inventoryStage = new Stage();
+            inventoryStage.setTitle("Inventář");
+            inventoryStage.setScene(new Scene(root)); // Scéna z FXML souboru
+            inventoryStage.show(); // Nastavení stage
+
+        } catch (IOException e) {
+            e.printStackTrace(); // chybová hláška
+        }
+
+
+
+    }
 }
 

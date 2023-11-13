@@ -27,13 +27,13 @@ public class CommandUse implements ICommand {
             return "Tento předmět nemáš v inventáři.";
         }
 
-        // Checking if there's a target for this item in the current room
+        // prověření přítomnosti cílového předmětu
         Item targetItem = plan.getCurrentRoom().getItem(itemToUse.getInteractionItem());
         if (targetItem == null) {
             return "V tomto prostoru nemůžeš tento předmět použít.";
         }
 
-        // If everything is correct, the action message from the item will be displayed
+        // hláška o úspěchu
         return itemToUse.use(plan.getCurrentRoom());
     }
 

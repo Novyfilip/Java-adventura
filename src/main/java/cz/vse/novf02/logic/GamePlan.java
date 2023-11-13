@@ -70,7 +70,7 @@ public class GamePlan implements PredmetPozorovani {
         vstupDoKatakomb = new Room("vstupDoKatakomb","Vstup do podzemí");
 
         Room vstupniMistnost = new Room("vstupniMistnost", "Dveře se otevřely a ty se nacházíš ve vstupní síni. Je tu zima a tma.","stary_klic");
-             Room leveRozcesti = new Room("leveRozcesti","Šel jsi levou chodbou, cesta za tebou se ale bohužel zasypala obřími kameny. To bylo těsné!\n Zde chodba končí. Po pravé straně je hrobka prince Philipa, zatímco na konci chodby je hrobka významných rytířů.");
+             Room leveRozcesti = new Room("leveRozcesti","Šel jsi levou chodbou.\n Zde chodba končí. Po pravé straně je hrobka prince Philipa, zatímco na konci chodby je hrobka významných rytířů.");
              Room hrobkaPrince = new Room("hrobkaPrince","Vešel jsi do hrobky prince Philipa.\n Oficiálně se dožil 99 let, ale šuškalo se o něm, že je ve skutečnosti 1000 let starý upír.");
              Room hrobkaRytiru = new Room("hrobkaRytiru", "Vstoupil jsi do komnaty, kde jsou pohřbeni nejvýznamnější členové královské stráže. Jeden sarkofág je pootevřený a v něm vidíš ležícího rytíře s pořádným palcátem v ruce. Že by Jan Žižka?");
              Room levyDungeon = new Room("levyDungeon", "Při vstupu do místnosti uslyšíš šoupání po podlaze.  Jsou to oživlé mumie! Bojuj nebo uteč!");
@@ -78,7 +78,7 @@ public class GamePlan implements PredmetPozorovani {
              Room stredKatakomb = new Room("stredKatakomb","Nacházíš se v samém srdci katakomb. Na východě vidíš jakési světlo, na jihu dveře, které musí vést do vstupní místnosti a na severu vstup tak honosný, že to může být jen krypta krále Šalamouna.\n" +
                       "Na kamenných dveřích vidíš jakýsi kruh. Po bližším ohledání vidíš, že se tam musí vložit královská pečeť.\n","kralovska_pecet");
              Room vychod = new Room("vychod","Našel jsi cestu zpět. Hurá!","klic_zpet");
-             Room praveRozcesti = new Room("praveRozcesti","Šel jsi pravou chodbou, cesta za tebou se ale bohužel zasypala obřími kameny. To bylo těsné!\n Zde chodba končí. Po levé straně je lovecký salon, zatímco na konci chodby slyšíš kapající vodu.");
+             Room praveRozcesti = new Room("praveRozcesti","Šel jsi pravou chodbou.\n Zde chodba končí. Po levé straně je lovecký salon, zatímco na konci chodby slyšíš kapající vodu.");
              Room studanka = new Room("studanka", "Před sebou vidíš, jak pramen vvvěrá do studánky.\n Osvěžíš se a hned je ti lépe.\n Zdá se, že tu byla vytvořena pro případ požáru.");
              Room loveckySalon = new Room("loveckySalon", "Vstoupil jsi do místnosti plné loveckého vybavení.\n Dle dobových záznamů by tu mohl být luk Robina Hooda.");
              Room pravyDungeon = new Room("pravyDungeon","Před tebou stojí obří oživlý strážce v těžké zbroji. Abys vůbec měl šanci prorazit jeho brnění, budeš potřebovat pořádnou zbraň");
