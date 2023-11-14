@@ -19,9 +19,14 @@ public class Room {
     private Set<Room> exits;
     private Map<String, Item> items;
     private String requiredItem;
-    private GamePlan game;// Changed from Set to String
+    private GamePlan game;
 
-    // Adjusted constructor
+
+    /**
+     * @param roomName jméno místnosti
+     * @param description popis vzhledu místnosti
+     * @param requiredItem předmět potřebný ke vstoupení
+     */
     public Room(String roomName, String description, String requiredItem) {
         this.roomName = roomName;
         this.description = description;
@@ -31,16 +36,23 @@ public class Room {
 
     }
 
-    // Adjusted constructor without the optional parameter
+
     public Room(String roomName, String description) {
         this(roomName, description, null);
     }
 
+    /**
+     * @param playerInventory kontroluje, jestli inventář obsahuje potřebný předmět
+     * @return
+     */
     public boolean hasRequiredItem(Inventory playerInventory) {
         if (requiredItem == null) return true;  // žádný předmět není potřeba
         return playerInventory.containsItem(requiredItem);
     }
 
+    /**
+     * @return zjistí potřebný předmět ke vstupu
+     */
     public String getRequiredItem() {
         return requiredItem;
     }
@@ -199,6 +211,10 @@ public class Room {
         }
     }
 
+    /**
+     * @param roomName jméno místnosti
+     * @return východ
+     */
     //pomocná metoda pro implementaci klíčů
     public Room getExitByName(String roomName) {
         return exits.stream()
@@ -264,6 +280,9 @@ public class Room {
         return items.remove(name);
     }
 
+    /**
+     * @return vrací název místnosti (ne Hashcode)
+     */
     @Override
     public String toString() {
         return this.roomName;

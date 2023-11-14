@@ -67,10 +67,10 @@ public class CommandGo implements ICommand{
             return "Potřebuješ " + nextPotentialRoom.getRequiredItem() + ".";
         }
 
-        // Before updating the current room, store the old current room as the previous room
+        // Uložení místnosti jako předchozí
         plan.setPreviousRoom(plan.getCurrentRoom());
 
-        // Now, set the new room as the current room
+
         plan.setCurrentRoom(nextPotentialRoom);
         return nextPotentialRoom.longDescription(playerInventory);
     }

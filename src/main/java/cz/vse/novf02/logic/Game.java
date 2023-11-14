@@ -15,15 +15,21 @@ public class Game implements IGame {
     private GamePlan gamePlan;
     private boolean gameEnd = false;
     private String epilog = "Konec hry.";
-    //private Inventory inventory;
+
     private Map<ZmenaHry, Set<Pozorovatel>> seznamPozorovatelu = new HashMap<>();
 
+    /**
+     * Do hry se vloží plán a platné příkazy
+     */
     public Game() {
         gamePlan = new GamePlan();
         validCommands = new CommandList();
         initializeCommands();
     }
 
+    /**
+     * Nastaví platné  příkazy
+     */
     private void initializeCommands() {
         validCommands.insertCommand(new CommandHelp(validCommands));
         validCommands.insertCommand(new CommandGo(gamePlan));
@@ -37,15 +43,25 @@ public class Game implements IGame {
             seznamPozorovatelu.put(zmenaHry,new HashSet<>());
         }
     }
+
+    /**
+     * @return Přehrává úvodní  zprávu na začátku hry
+     */
     public String returnStart() {
         return "Vítejte ve hře Tajemná krypta!\n Právě se nacházíš u vstupu do královských katakomb,\n kde se nachází hrobka bájného krále Šalamouna.\n Dveře jsou sice zamčené, ale čirou náhodou leží klíč pohozený přímo před nimi.\n Dnes je tvůj šťastný den!\n" +
                 "Napište 'nápověda', pokud si nevíte rady, jak hrát dál.";
     }
 
+    /**
+     * @return současný epilog
+     */
     public String returnEpilog() {
         return epilog;
     }
 
+    /**
+     * @return konec hry
+     */
     public boolean gameEnd() {
         return gameEnd;
     }
@@ -81,31 +97,36 @@ public class Game implements IGame {
         return textToPrint;
     }
 
+    /** Nastavuje konec hry
+     * @param gameEnd pokud je true, hra končí
+     */
     void setGameEnd(boolean gameEnd) {
         this.gameEnd = gameEnd;
     }
 
+    /** Zjišťuje současný stav herního plánu
+     * @return stav herního plánu (včetně informací o hráči)
+     */
     public GamePlan getGamePlan() {
         return gamePlan;
     }
 
+    /** Nastavuje epilog
+     * @param epilog zpráva zobrazena na konci hryy
+     */
     public void setEpilog(String epilog) {
         this.epilog = epilog;
     }
 
-    /**
+    /** Registruje změny ve hře
      * @param zmenaHry
      * @param pozorovatel
      */
     @Override
     public void registruj(ZmenaHry zmenaHry, Pozorovatel pozorovatel) {
         seznamPozorovatelu.get(zmenaHry).add(pozorovatel);
-        //debugging System.out.println("Pozorovatel " + pozorovatel + " byl zaregistrován.");
+
 
     }
-    public void upozorniPozorovatele(ZmenaHry zmenaHry){
-        for(Pozorovatel pozorovatel : seznamPozorovatelu.get(zmenaHry)) {
-            pozorovatel.aktualizuj();
-        }
-    }
+
 }

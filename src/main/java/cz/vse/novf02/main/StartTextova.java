@@ -12,7 +12,8 @@ import java.io.FileNotFoundException;
 
 /*******************************************************************************
  * Třída  Start je hlavní třídou projektu,
- * který představuje jednoduchou textovou adventuru.
+ * který představuje jednoduchou textovou adventuru. Tato třída již není potřeba,
+ * protože textovou hru můžeme spustit v třídě start s parametrem pro textovou verzi
 */
 
 public class StartTextova extends Application  {

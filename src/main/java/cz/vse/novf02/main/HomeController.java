@@ -42,6 +42,10 @@ public class HomeController {
     private ObservableList<Room> seznamVychodu = FXCollections.observableArrayList();
     private Map<String, Point2D> souradniceProstoru = new HashMap<>();
 
+
+    /**
+     * Počáteční nastavení zobrazovaného herního plánu
+     */
     @FXML
     private void initialize() {
         vystup.appendText(game.returnStart() + "\n\n");
@@ -89,10 +93,9 @@ public class HomeController {
         }
 
 
-
-
-
-
+    /**
+     * Definujeme, kam umístit postavičku pro každou místnost
+     */
     private void vlozSouradnice() {
         souradniceProstoru.put("vstupDoKatakomb", new Point2D(210, 225));
         souradniceProstoru.put("vstupniMistnost", new Point2D(216, 168));
@@ -113,12 +116,18 @@ public class HomeController {
         souradniceProstoru.put("vychod", new Point2D(415, 225));
     }
 
+    /**
+     * Aktualizuje možné východy z místnosti
+     */
     @FXML
     private void aktualizujSeznamVychodu() {
         seznamVychodu.clear();
         seznamVychodu.addAll(game.getGamePlan().getCurrentRoom().getExits());
     }
 
+    /**
+     * Mění polohu hráče na mapě
+     */
     private void aktualizujPolohuHrace() {
         String prostor = game.getGamePlan().getCurrentRoom().getRoomName();
         hrac.setLayoutX(souradniceProstoru.get(prostor).getX());
@@ -129,6 +138,9 @@ public class HomeController {
     }
 
 
+    /**
+     * Umožňuje konec hry
+     */
     private void aktualizujKonecHry() {
         if (game.gameEnd()) {
             String epilog = game.returnEpilog();
@@ -142,12 +154,18 @@ public class HomeController {
         closeWindow();
     }
 
+    /**
+     * Zavře okno s dostatečným časem pro přečtení Epilogu
+     */
     private void closeWindow() {
         PauseTransition delay = new PauseTransition(Duration.seconds(10));
         delay.setOnFinished(event -> Platform.exit());
         delay.play();
     }
 
+    /** Předá hře zadaná text z TextFieldu
+     * @param actionEvent příkaz
+     */
     @FXML
     private void odesliVstup(ActionEvent actionEvent) {
         String prikaz = vstup.getText();
@@ -155,6 +173,9 @@ public class HomeController {
         zpracujPrikaz(prikaz);
     }
 
+    /** Informuje hráče o výsledku provedené akce v TextAree
+     * @param prikaz zadaný text
+     */
     private void zpracujPrikaz(String prikaz) {
         vystup.appendText("> " + prikaz + "\n");
         String vysledek = game.processCommand(prikaz);
@@ -163,6 +184,9 @@ public class HomeController {
     }
 
 
+    /** Zavře hru, když si ji hráč přeje ukončit
+     * @param actionEvent potvrzení konce
+     */
     public void ukončitHru(ActionEvent actionEvent) {
         Alert alert = new Alert(javafx.scene.control.Alert.AlertType.CONFIRMATION, "Opravdu chcete zavřít hru?");
         Optional<ButtonType> result = alert.showAndWait();
@@ -170,6 +194,9 @@ public class HomeController {
             Platform.exit();
     }
 
+    /** Definuje co se stane po kliknutí na panel
+     * @param mouseEvent klik
+     */
     @FXML
     private void klikPanelVychodu(MouseEvent mouseEvent) {
         Room cil = panelVychodu.getSelectionModel().getSelectedItem();
@@ -178,21 +205,25 @@ public class HomeController {
         zpracujPrikaz(prikaz);//Jak
     }
 
+    /**
+     * Aktualizuje popis místnosti na současnou místnost
+     */
     private void updateRoomDescription() {
         Room currentRoom = game.getGamePlan().getCurrentRoom();
-        String roomName = currentRoom.getRoomName(); // Get the room's name
-        vystup.appendText("Nyní jsi v: " + roomName + "\n\n"); // Display the room's name
+        String roomName = currentRoom.getRoomName();
+        vystup.appendText("Nyní jsi v: " + roomName + "\n\n");
     }
 
     @FXML
     private ImageView currentRoomImageView;
 
+    /** Aktualizuje zobrazovaný obrázek
+     * @param currentRoom současná místnost
+     */
     public void updateCurrentRoomImage(Room currentRoom) {
         String imageUrl = getClass().getResource("/cz/vse/novf02/main/adventuraAssets/prostory/" + currentRoom.getRoomName() + ".png").toExternalForm();
-        ImageView cozyRoom = null;
         if (imageUrl != null) {
             ImageView mistnost = new ImageView(imageUrl);
-            cozyRoom = new ImageView(getClass().getResource("/cz/vse/novf02/main/adventuraAssets/prostory/cozyRoom.png").toString());
             mistnost.setFitHeight(142);
             mistnost.setFitWidth(142);
             currentRoomImageView.setImage(mistnost.getImage());
@@ -203,6 +234,9 @@ public class HomeController {
     }
 
 
+    /** Definuje co se stane po kliknutí na nápovědu v menu
+     * @param actionEvent kliknutí na položku menu
+     */
     public void napovedaKlik(ActionEvent actionEvent) {
         Stage napovedaStage = new Stage();
         WebView wv = new WebView();
@@ -211,18 +245,37 @@ public class HomeController {
         napovedaStage.show();
         wv.getEngine().load(getClass().getResource("napoveda.html").toExternalForm());
     }
+
+    /** Vrátí všechno do původního stavu
+     * @param event kliknutí na položku nová hra
+     */
+    @FXML
+    private void novaHra(ActionEvent event) {
+        this.game = new Game();
+        vystup.clear();
+        aktualizujSeznamVychodu();
+        updateRoomDescription();
+        aktualizujPolohuHrace();
+        updateCurrentRoomImage(game.getGamePlan().getCurrentRoom());
+        vystup.appendText(game.returnEpilog() + "\n\n");
+        vystup.appendText(game.returnStart() + "\n\n");
+        // možná bude třeba ještě upozornit další observery
+
+
+    }
+
     @FXML
     private void otevriInventar(ActionEvent event) {
         try {
-            // Create a FXMLLoader instance
+            // Vytvoří se a FXMLLoader instance
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/cz/vse/novf02/main/inventory.fxml")); // Adjust the path if necessary
             Parent root = loader.load(); // Load the FXML
 
-            // Get the controller and set the game instance
+            // Načte se controller a nastaví se instance hry
             InventoryController inventoryController = loader.getController();
             inventoryController.setGame(game, vystup);
 
-            // Create a new stage (window) for the inventory
+            // Nové okno pro inventář
             Stage inventoryStage = new Stage();
             inventoryStage.setTitle("Inventář");
             inventoryStage.setScene(new Scene(root)); // Scéna z FXML souboru

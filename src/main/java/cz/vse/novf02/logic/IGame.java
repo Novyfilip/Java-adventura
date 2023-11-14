@@ -43,5 +43,8 @@ public interface IGame extends PredmetPozorovani {
     public String processCommand(String inputRow);
 
 
+    /** Získává současný stav herního plánu
+     * @return stav herního plánu
+     */
     GamePlan getGamePlan();
 }

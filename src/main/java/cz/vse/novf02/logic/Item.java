@@ -11,13 +11,25 @@ public class Item {
     private boolean isLoot; // flag pro speciální zprávu při sebrání
     private String imagePath; // Cesta k obrázku
 
+    /**
+     * @return zjistí cestu k obrázku
+     */
     // Konstruktor
     public String getImagePath() {
         return imagePath;
     }
+
+    /**
+     * nastaví parametr podle jména předmětu a stringu adresy
+     */
     public void setImagePath() {
         this.imagePath = constructImagePath(name);
     }
+
+    /**
+     * @param itemName jméno předmětu
+     * @return adresa obrázku k předmětu
+     */
     private String constructImagePath(String itemName) {
         return "/cz/vse/novf02/main/adventuraAssets/predmety/" + itemName + ".png";
     }
@@ -31,18 +43,24 @@ public class Item {
         this.imagePath = constructImagePath(name);
     }
 
+    /**
+     * @return jméno předmětu
+     */
     public String getItemName() {
         return this.name;
     }
 
+    /**
+     * @return dá se předmět unést?
+     */
     public Boolean getCanCarry() {
         return this.canCarry;
     }
 
     /**
-     * Set the item that this item can interact with and the message for the interaction.
-     * @param interactionItem The item's name this item interacts with.
-     * @param interactionMessage The message shown when interacting.
+     * Nastaví speciální interakci s jiným předmětem
+     * @param interactionItem S čím předmět má speciální interkaci
+     * @param interactionMessage Zpráva při interakci
      */
     public void setInteraction(String interactionItem, String interactionMessage) {
         this.interactionItem = interactionItem;
@@ -50,24 +68,24 @@ public class Item {
     }
 
     /**
-     * Returns the name of the interaction item.
-     * @return Name of the interaction item.
+     * Vrací jméno předmětu k interakci
+     * @return jméno předmětu k interakci
      */
     public String getInteractionItem() {
         return this.interactionItem;
     }
 
     /**
-     * Checks if this item has an interaction with another item.
-     * @param itemName Name of the other item.
-     * @return true if they can interact, false otherwise.
+     * Kontroluje, zda existuje interakce
+     * @param itemName Jméno druhého předmětu
+     * @return true pokud je interakce definována
      */
     public boolean canInteractWith(String itemName) {
         return itemName.equals(this.interactionItem);
     }
 
     /**
-     * Method to return the interaction message.
+     * Vrací interakční zprávu.
      * @return Interaction message.
      */
     public String getActionMessage() {
@@ -75,14 +93,14 @@ public class Item {
     }
 
     /**
-     * Method to return the action message when the item is used.
-     * @return Message shown when the item is used.
+     * Vrací akční zprávu
+     * @return Zpráva zobrazená, když se použije předmět
      */
     public String use(Room currentRoom) {
         // Kontroluje, jestli se v místnosti nachází cíl
         Item target = currentRoom.returnItem(this.interactionItem);
         if (target != null) {
-            // Check if the target has loot to generate
+            // Má předmět definovaný loot?
             if (target.getGeneratedItem() != null) {
                 // Vytvoří loot a vloží ho do místnosti
                 currentRoom.insertItem(target.getGeneratedItem());
@@ -98,38 +116,40 @@ public class Item {
     }
 
 
-
-
+    /**
+     * @param item generovaný loot
+     */
     //generování předmětů
     public void setGeneratedItem(Item item) {
         this.generatedItem = item;
     }
+
+    /**
+     * @return generovaný loot
+     */
     public Item getGeneratedItem() {
         return this.generatedItem;
     }
+
+    /**
+     * @param isLoot Nastaví, jestli je předmět loot
+     */
     public void setAsLoot(boolean isLoot) {
         this.isLoot = isLoot;
     }
+
+    /**
+     * @return true - generovaný předmět
+     */
     // Metoda na kontrolu, jestli je předmět pokladem
     public boolean isLoot() {
         return isLoot;
     }
 
-    //Metoda pro naplnění kyblíku
-    private boolean isFilled = false;
 
-    // Method to fill the bucket
-    public void fill() {
-        if(this.name.equals("kyblik")) {
-            this.isFilled = true;
-            this.actionMessage = "Kyblík je nyní naplněný vodou.";
-        }
-    }
 
-    // Getter pro isFilled
-    public boolean isFilled() {
-        return isFilled;
-    }
+
+
 
 
 

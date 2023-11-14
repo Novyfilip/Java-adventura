@@ -32,10 +32,16 @@ public class GamePlan implements PredmetPozorovani {
     private Map<ZmenaHry, Set <Pozorovatel>> seznamPozorovatelu = new HashMap<>();
 
 
+    /** Zjišťuje předchozí místnost pro účel příkazu jdi zpet
+     * @return předchozí místnost
+     */
     public Room getPreviousRoom() {
         return this.previousRoom;
     }
 
+    /** Nastaví současnou místnost jako předchozí pro budoucí použití
+     * @param previousRoom předchozí místnost
+     */
     public void setPreviousRoom(Room previousRoom) {
         this.previousRoom = previousRoom;
     }
@@ -44,19 +50,23 @@ public class GamePlan implements PredmetPozorovani {
 
     private Game game;
 
+    /** Getter hry
+     * @return hra
+     */
     public Game getGame() {
         return this.game;
     }
 
+    /** Nastavení hry
+     * @param game hra
+     */
     public void setGame(Game game) {
         this.game = game;
     }
 
 
-
     /**
-     *  Konstruktor který vytváří jednotlivé prostory a propojuje je pomocí východů.
-     *  Jako výchozí aktuální prostor nastaví halu.
+     *  Nejdůležitější objekt, sleduje stav hry a informuje pozorovatele
      */
     public GamePlan() {
         createGame();
@@ -65,6 +75,9 @@ public class GamePlan implements PredmetPozorovani {
         }
     }
 
+    /**
+     * Metoda pro nastavení všech místností, předmětů apod. ve hře
+     */
     private void createGame(){
        // vytvářejí se jednotlivé Prostory
         vstupDoKatakomb = new Room("vstupDoKatakomb","Vstup do podzemí");
@@ -202,7 +215,7 @@ public class GamePlan implements PredmetPozorovani {
         roomItems.put(vstupDoKatakomb, Arrays.asList(stary_klic));
         roomItems.put(levyDungeon, Arrays.asList(mumie)); // Změněno z levyDungeon1
         roomItems.put(levyMost, Arrays.asList(carodej)); // Změněno z levyDungeon2
-        roomItems.put(hrobkaPrince, Arrays.asList(excalibur /*, kralovska_pecet */));
+        roomItems.put(hrobkaPrince, Arrays.asList(excalibur));
         roomItems.put(hrobkaRytiru, Arrays.asList( palcat));
         roomItems.put(pokladnice, Arrays.asList(truhla));
         roomItems.put(zlataSin,Arrays.asList(hrouda_zlata, djinn));
@@ -259,6 +272,9 @@ public class GamePlan implements PredmetPozorovani {
         return inventory;
     }
 
+    /**
+     * Restart textové hry, v grafickém rozhraní se nepoužívá
+     */
     // Restartuje plán
     public void reset() {
         this.currentRoom = vstupDoKatakomb;
@@ -271,7 +287,7 @@ public class GamePlan implements PredmetPozorovani {
     }
 
 
-    /**
+    /** Registruje změny ve hře
      * @param pozorovatel
      */
     @Override
@@ -280,6 +296,10 @@ public class GamePlan implements PredmetPozorovani {
         //debugging System.out.println("Pozorovatel " + pozorovatel + " byl zaregistrován.");
 
     }
+
+    /** Upozorňuje pozorovatele na změnu
+     * @param zmenaHry změna ve stavu herního plánu
+     */
     public void upozorniPozorovatele(ZmenaHry zmenaHry){
         for(Pozorovatel pozorovatel : seznamPozorovatelu.get(zmenaHry)) {
             pozorovatel.aktualizuj();

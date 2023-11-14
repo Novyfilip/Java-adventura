@@ -1,5 +1,11 @@
 package cz.vse.novf02.main;
-// followers, observer
+
+/**
+ * Pozorovatel pro návrhový vzor Observer
+ */
 public interface Pozorovatel {
+    /**
+     * Aktualizuje stav
+     */
     void aktualizuj();
 }

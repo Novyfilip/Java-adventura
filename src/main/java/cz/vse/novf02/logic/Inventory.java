@@ -1,4 +1,8 @@
 package cz.vse.novf02.logic;
+import cz.vse.novf02.main.Pozorovatel;
+import cz.vse.novf02.main.PredmetPozorovani;
+import cz.vse.novf02.main.ZmenaHry;
+
 import java.util.*;
 
 /**
@@ -8,9 +12,30 @@ import java.util.*;
  * @version pro školní rok 2020/2021
  */
 
-public class Inventory {
+public class Inventory implements PredmetPozorovani {
     private Map<String, Item> items = new HashMap<>();
     private static final int capacity = 12;
+    private Map<ZmenaHry, List<Pozorovatel>> observers = new HashMap<>();
+
+    /** Zaznamenává změny v herním plánu
+     * @param zmenaHry změna v herním plánu
+     * @param pozorovatel pozorovatel
+     */
+    @Override
+    public void registruj(ZmenaHry zmenaHry, Pozorovatel pozorovatel) {
+        observers.computeIfAbsent(zmenaHry, k -> new ArrayList<>()).add(pozorovatel);
+    }
+
+    /** Upozorňuje pozorovatele pro aktualizování zobrazeného obsahu.
+     * @param zmenaHry změna hry
+     */
+    private void notifyObservers(ZmenaHry zmenaHry) {
+        if (observers.containsKey(zmenaHry)) {
+            for (Pozorovatel pozorovatel : observers.get(zmenaHry)) {
+                pozorovatel.aktualizuj();
+            }
+        }
+    }
 
 
     /**
@@ -22,6 +47,7 @@ public class Inventory {
         if(isEmpty()) {
             items.put(item.getItemName(), item); //vloží klíč a hodnotu do mapy
             if (items.containsKey(item.getItemName())) {
+                notifyObservers(ZmenaHry.INVENTORY_CHANGE);
                 return item;
             }
         }
@@ -63,19 +89,6 @@ public class Inventory {
         }
         return false;
     }
-    public boolean containsAll(Set<String> requiredItems) {
-        return items.keySet().containsAll(requiredItems);
-    }
-
-
-    /**
-     * vrati vec z inventare
-     * @param name nazev veci, kterou chceme vratit
-     * @return vracena vec
-     */
-    public Item returnItem(String name) {
-        return items.get(name);
-    }
 
 
     /**
@@ -86,6 +99,7 @@ public class Inventory {
     public Item removeItem(String name) {
         Item item = items.get(name);
         items.remove(name);
+        notifyObservers(ZmenaHry.INVENTORY_CHANGE);
         return item;
     }
 
@@ -99,13 +113,17 @@ public class Inventory {
     }
     public Boolean isFull(){return(items.size() == capacity);}
     /**
-     * Retrieves the item with the given name from the inventory.
-     * @param itemName the name of the item
-     * @return the item if found, null otherwise
+     * vrati vec z inventare
+     * @param itemName nazev veci, kterou chceme vratit
+     * @return vracena vec
      */
     public Item getItem(String itemName) {
         return items.get(itemName);
     }
+
+    /**
+     * @return celý obsah inventáře
+     */
     public Collection<Item> getAllItems() {
         return items.values();
     }

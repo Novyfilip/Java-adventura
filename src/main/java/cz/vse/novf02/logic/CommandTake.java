@@ -46,17 +46,13 @@ public class CommandTake implements ICommand {
 
             Inventory inventory = plan.getInventory();
             if (inventory.containsItem(itemName)) {
-                // If the item is already in the inventory
-                return "Tento předmět jsi už sebral.";
-            } /*else if (inventory.isEmpty()) {
-                // If the inventory is full
-                return "Tvůj inventář je plný.";
-            }*/ else {
-                // If the item can be picked up and there is room in the inventory
-                item = currentRoom.removeItem(itemName); // Removes the item from the room
-                inventory.insertItem(item); // Adds the item to the inventory
 
-                // Check if the item has an interaction message to print upon pickup
+                return "Tento předmět jsi už sebral.";
+            }  else {
+                // Když se dá předmět vzít a je místo v inventáři
+                item = currentRoom.removeItem(itemName);
+                inventory.insertItem(item);
+                // Zkontroluje přítomnost interactionMessage
                 String pickupMessage = "Sebral jsi předmět " + item.getItemName() + ".";
                  if (item.isLoot() && item.getActionMessage() != null) {
                     pickupMessage += "\n" + item.getActionMessage();

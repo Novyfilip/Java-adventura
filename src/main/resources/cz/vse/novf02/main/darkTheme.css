@@ -1,6 +1,6 @@
 .root {
-    -fx-background-color: #2b2b2b; /* Dark background */
-    -fx-text-fill: #dcdcdc; /* Lighter text */
+    -fx-background-color: #2b2b2b; /* Tmavé pozadí */
+    -fx-text-fill: #dcdcdc; /* Světlý text */
 }
 
 .button {
@@ -16,8 +16,37 @@
 
 .menu-bar {
     -fx-background-color: #3c3f41;
+    -fx-text-fill: #ffffff;
 }
 
 .menu {
     -fx-text-fill: #dcdcdc;
 }
+.titled-pane {
+    -fx-background-color: #3c3f41;
+    -fx-text-fill: #1d2026;
+}
+
+.titled-pane > .title {
+    -fx-text-fill: #1d2026;
+}
+
+.split-pane-divider {
+    -fx-background-color: #1d2026;
+}
+
+
+.split-pane {
+    -fx-background-color: #1d2026; /* Dark background for split pane dividers */
+}
+
+/* Pozadí mapy */
+.titled-pane > .content {
+    -fx-background-color: #3c3f41;
+}
+
+/* položky menu */
+.menu-item {
+    -fx-text-fill: #dcdcdc;
+}
+

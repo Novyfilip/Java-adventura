@@ -10,7 +10,8 @@ import javafx.scene.layout.GridPane;
 import java.util.Collection;
 import java.util.Objects;
 
-public class InventoryController {
+public class InventoryController implements Pozorovatel{
+
 
     @FXML
     private GridPane inventoryGrid;
@@ -18,12 +19,29 @@ public class InventoryController {
 
     private IGame game;
 
+
+    /** Nastaví počáteční parametry
+     * @param game hra
+     * @param vystup výstup v JavaFX TextArea
+     */
     public void setGame(IGame game, TextArea vystup) {
         this.game = game;
         this.vystup = vystup;
+        game.getGamePlan().getInventory().registruj(ZmenaHry.INVENTORY_CHANGE, this);
         updateInventoryGrid();
     }
 
+    /**
+     * Obecná aktualizační metoda
+     */
+    @Override
+    public void aktualizuj() {
+        updateInventoryGrid();
+    }
+
+    /**
+     * Aktualizace inventáře. Do inventáře přidává obrázky předmětů do definovaných míst
+     */
     private void updateInventoryGrid() {
         inventoryGrid.getChildren().clear();
         Collection<Item> items = game.getGamePlan().getInventory().getAllItems();
@@ -35,9 +53,6 @@ public class InventoryController {
             String imagePath = "/cz/vse/novf02/main/adventuraAssets/predmety/" + item.getItemName() + ".png";
             System.out.println("Cesta pro" + item.getItemName() + ": " + imagePath); // Debugging
             Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(imagePath)));
-
-
-
 
             ImageView itemView = new ImageView(image);
             itemView.setFitHeight(64);
