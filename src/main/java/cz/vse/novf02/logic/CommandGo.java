@@ -69,9 +69,11 @@ public class CommandGo implements ICommand{
 
         // Uložení místnosti jako předchozí
         plan.setPreviousRoom(plan.getCurrentRoom());
-
-        Sounds.playSound("jdi.mp3");
         plan.setCurrentRoom(nextPotentialRoom);
+        if (plan.getCurrentRoom().getRoomName().equals("studanka") ||
+                plan.getCurrentRoom().getRoomName().equals("levyMost")) {
+            Sounds.playSound("voda.mp3");
+        }else{ Sounds.playSound("jdi.mp3");}
         return nextPotentialRoom.longDescription(playerInventory);
     }
 

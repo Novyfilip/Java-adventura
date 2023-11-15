@@ -47,6 +47,7 @@ public class GamePlan implements PredmetPozorovani {
 
     private Inventory inventory = new Inventory();
 
+
     private Game game;
 
     /** Getter hry
@@ -78,6 +79,7 @@ public class GamePlan implements PredmetPozorovani {
      * Metoda pro nastavení všech místností, předmětů apod. ve hře
      */
     private void createGame(){
+
        // vytvářejí se jednotlivé Prostory
         vstupDoKatakomb = new Room("vstupDoKatakomb","Vstup do podzemí");
 
@@ -123,7 +125,8 @@ public class GamePlan implements PredmetPozorovani {
         exitsMap.put(stredKatakomb, new Room[]{levyMost, pravyMost, kralovskaKrypta});
         exitsMap.put(kralovskaKrypta, new Room[]{stredKatakomb, pokladnice, zlataSin, vychod});
         exitsMap.put(vychod, new Room[]{kralovskaKrypta});
-        exitsMap.put(pokladnice, new Room[]{kralovskaKrypta, stredKatakomb});
+        exitsMap.put(pokladnice, new Room[]{kralovskaKrypta});
+        exitsMap.put(zlataSin,new Room []{kralovskaKrypta});
 
         // Iterace skrze mapu a nastavení východů pro každou místnost
         exitsMap.forEach((room, exitRooms) -> {
@@ -138,6 +141,7 @@ public class GamePlan implements PredmetPozorovani {
  * nastavení počáteční mistnosti
  */
         this.currentRoom = vstupDoKatakomb;
+
 
 
 

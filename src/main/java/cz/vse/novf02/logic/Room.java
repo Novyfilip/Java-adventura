@@ -266,7 +266,7 @@ public class Room implements PredmetPozorovani {
      * @return vlozena vec
      */
     public Item insertItem(Item item) {
-        Sounds.playSound("loot.mp3");
+        //if (game.getGame().getGamePlan().getCurrentRoom().getRoomName() != "vstupDoKatakomb") { Sounds.playSound("loot.mp3");};
         items.put(item.getItemName(),item);
         notifyObservers(ZmenaHry.ITEM_CHANGE);
         if (items.containsKey(item.getItemName())) {
