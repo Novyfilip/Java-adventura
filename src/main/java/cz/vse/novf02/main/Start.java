@@ -1,5 +1,4 @@
 package cz.vse.novf02.main;
-
 import cz.vse.novf02.TextUI.TextUI;
 import cz.vse.novf02.logic.Game;
 import cz.vse.novf02.logic.IGame;
@@ -8,11 +7,13 @@ import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-
 import java.io.FileNotFoundException;
+import cz.vse.novf02.logic.Sounds;
+
+
+
+
 
 /*******************************************************************************
  * Třída  Start je hlavní třídou projektu,
@@ -59,6 +60,9 @@ public class Start extends Application  {
         primaryStage.setScene(scene);
         primaryStage.setTitle("Tajemná krypta");
         primaryStage.show();
+        Sounds.playSound("start.mp3");
     }
+
+
 
 }

@@ -50,6 +50,7 @@ public class CommandTake implements ICommand {
                 return "Tento předmět jsi už sebral.";
             }  else {
                 // Když se dá předmět vzít a je místo v inventáři
+                Sounds.playSound("sebrat.mp3");
                 item = currentRoom.removeItem(itemName);
                 inventory.insertItem(item);
                 // Zkontroluje přítomnost interactionMessage

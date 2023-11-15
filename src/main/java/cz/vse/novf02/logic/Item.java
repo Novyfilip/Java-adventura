@@ -1,5 +1,12 @@
 package cz.vse.novf02.logic;
 
+import cz.vse.novf02.main.Pozorovatel;
+import cz.vse.novf02.main.ZmenaHry;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 public class Item {
 
     private String name;
@@ -10,6 +17,7 @@ public class Item {
     private Item generatedItem; //loot z nepřátel a truhel
     private boolean isLoot; // flag pro speciální zprávu při sebrání
     private String imagePath; // Cesta k obrázku
+    private Map<ZmenaHry, Set<Pozorovatel>> seznamPozorovatelu = new HashMap<>();
 
     /**
      * @return zjistí cestu k obrázku
@@ -114,6 +122,7 @@ public class Item {
         // Pokud cíl není v místnosti
         return "Nelze použít " + this.name + " zde.";
     }
+
 
 
     /**

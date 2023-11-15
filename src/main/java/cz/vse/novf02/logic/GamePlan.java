@@ -26,7 +26,6 @@ public class GamePlan implements PredmetPozorovani {
     private Room currentRoom;
     // pro rozšíření scopu, abychom mohli použít pro metodu pro restart
     private Room vstupDoKatakomb;
-    private Item stary_klic;
     //Evidence předchozí místnosti pro návrat zpět
     private Room previousRoom = null;
     private Map<ZmenaHry, Set <Pozorovatel>> seznamPozorovatelu = new HashMap<>();
@@ -82,16 +81,16 @@ public class GamePlan implements PredmetPozorovani {
        // vytvářejí se jednotlivé Prostory
         vstupDoKatakomb = new Room("vstupDoKatakomb","Vstup do podzemí");
 
-        Room vstupniMistnost = new Room("vstupniMistnost", "Dveře se otevřely a ty se nacházíš ve vstupní síni. Je tu zima a tma.","stary_klic");
-             Room leveRozcesti = new Room("leveRozcesti","Šel jsi levou chodbou.\n Zde chodba končí. Po pravé straně je hrobka prince Philipa, zatímco na konci chodby je hrobka významných rytířů.");
-             Room hrobkaPrince = new Room("hrobkaPrince","Vešel jsi do hrobky prince Philipa.\n Oficiálně se dožil 99 let, ale šuškalo se o něm, že je ve skutečnosti 1000 let starý upír.");
-             Room hrobkaRytiru = new Room("hrobkaRytiru", "Vstoupil jsi do komnaty, kde jsou pohřbeni nejvýznamnější členové královské stráže. Jeden sarkofág je pootevřený a v něm vidíš ležícího rytíře s pořádným palcátem v ruce. Že by Jan Žižka?");
-             Room levyDungeon = new Room("levyDungeon", "Při vstupu do místnosti uslyšíš šoupání po podlaze.  Jsou to oživlé mumie! Bojuj nebo uteč!");
+        Room vstupniMistnost = new Room("vstupniMistnost", "Dveře se otevřely a ty se nacházíš ve vstupní síni.\n Dveře se za tebou zabouchly,\ntak budeš muset najít jinou cestu ven.","stary_klic");
+             Room leveRozcesti = new Room("leveRozcesti","Šel jsi levou chodbou.\n Zde chodba končí. Po pravé straně je hrobka prince Philipa,\n zatímco na konci chodby je hrobka významných rytířů.");
+             Room hrobkaPrince = new Room("hrobkaPrince","Vešel jsi do hrobky prince Philipa.\n Oficiálně se dožil 99 let, ale šuškalo se o něm,\n že je ve skutečnosti 1000 let starý upír.");
+             Room hrobkaRytiru = new Room("hrobkaRytiru", "Vstoupil jsi do komnaty,\n kde jsou pohřbeni nejvýznamnější\n členové královské stráže.\n Jeden sarkofág je pootevřený \na v něm vidíš ležícího rytíře\n s pořádným palcátem v ruce.\n Že by Jan Žižka?");
+             Room levyDungeon = new Room("levyDungeon", "Při vstupu do místnosti uslyšíš hrozivé zvuky.\n  Jsou to oživlé mumie! Bojuj nebo uteč!");
              Room levyMost = new Room("levyMost","Na druhém konci místnosti stojí nemrtvý čaroděj.\n Jednej rychle, nebo tě promění v žábu!");
              Room stredKatakomb = new Room("stredKatakomb","Nacházíš se v samém srdci katakomb. Na východě vidíš jakési světlo, na jihu dveře, které musí vést do vstupní místnosti a na severu vstup tak honosný, že to může být jen krypta krále Šalamouna.\n" +
                       "Na kamenných dveřích vidíš jakýsi kruh. Po bližším ohledání vidíš, že se tam musí vložit královská pečeť.\n","kralovska_pecet");
              Room vychod = new Room("vychod","Našel jsi cestu zpět. Hurá!","klic_zpet");
-             Room praveRozcesti = new Room("praveRozcesti","Šel jsi pravou chodbou.\n Zde chodba končí. Po levé straně je lovecký salon, zatímco na konci chodby slyšíš kapající vodu.");
+             Room praveRozcesti = new Room("praveRozcesti","Šel jsi pravou chodbou.\n Zde chodba končí. Po levé straně je lovecký salon,\n zatímco na konci chodby slyšíš kapající vodu.");
              Room studanka = new Room("studanka", "Před sebou vidíš, jak pramen vvvěrá do studánky.\n Osvěžíš se a hned je ti lépe.\n Zdá se, že tu byla vytvořena pro případ požáru.");
              Room loveckySalon = new Room("loveckySalon", "Vstoupil jsi do místnosti plné loveckého vybavení.\n Dle dobových záznamů by tu mohl být luk Robina Hooda.");
              Room pravyDungeon = new Room("pravyDungeon","Před tebou stojí obří oživlý strážce v těžké zbroji. Abys vůbec měl šanci prorazit jeho brnění, budeš potřebovat pořádnou zbraň");

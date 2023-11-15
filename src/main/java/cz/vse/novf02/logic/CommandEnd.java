@@ -34,7 +34,7 @@ public class CommandEnd implements ICommand{
             return "Jsi si jistý že chceš hru vypnout? Pro konec napiš 'konec'";
         }
         else {
-            game.setGameEnd(true);
+            game.setGameEnd(true, false);
             return "Zemřel jsi hlady.";
         }
     }

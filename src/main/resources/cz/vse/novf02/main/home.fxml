@@ -76,7 +76,7 @@
                                        <Font name="Poor Richard" size="14.0" />
                                     </font>
                                  </Text>
-                                 <Button graphicTextGap="1.0" mnemonicParsing="false" text="Prohledat">
+                                 <Button graphicTextGap="1.0" mnemonicParsing="false" fx:id="tlacitkoProhledat" text="Prohledat" onAction="#klikProhledat">
                                     <font>
                                        <Font name="Book Antiqua" size="8.0" />
                                     </font>
@@ -96,8 +96,8 @@
       </SplitPane>
        <TitledPane animated="false" contentDisplay="TOP" text="Mapa" GridPane.rowIndex="1">
            <content>
-               <HBox alignment="TOP_CENTER" spacing="10"> <!-- Add spacing for better separation -->
-                   <Pane maxHeight="330" prefWidth="480"> <!-- Set preferred width for the Pane -->
+               <HBox alignment="TOP_CENTER" spacing="10">
+                   <Pane maxHeight="330" prefWidth="480">
                        <children>
                            <ImageView fitHeight="330.0" fitWidth="480.0" pickOnBounds="true" preserveRatio="true">
                                <image>

@@ -33,6 +33,9 @@
     -fx-background-color: #1d2026;
 }
 
+.grid-pane {
+    -fx-background-color: #3c3f41; /* Dark gray color */
+}
 
 .split-pane {
     -fx-background-color: #1d2026; /* Dark background for split pane dividers */

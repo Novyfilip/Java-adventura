@@ -21,10 +21,7 @@ import javafx.util.Callback;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class HomeController {
     @FXML
@@ -39,6 +36,8 @@ public class HomeController {
     private TextField vstup;
     @FXML
     private TextArea vystup;
+    @FXML
+    private Button tlacitkoProhledat;
 
     private IGame game = new Game();
 
@@ -59,13 +58,16 @@ public class HomeController {
             aktualizujSeznamVychodu();
             aktualizujPolohuHrace();
             updateRoomDescription();//Nové
-            updateRoomItems(); // pro panel předmětů
+            updateRoomItems(); //První update
+
         });
+        game.getGamePlan().getCurrentRoom().registruj(ZmenaHry.ITEM_CHANGE, this::updateRoomItems);
+        updateRoomItems(); // pro panel předmětů
         game.registruj(ZmenaHry.KONEC_HRY, () -> aktualizujKonecHry());
         aktualizujSeznamVychodu();
         vlozSouradnice();
-        updateCurrentRoomImage(game.getGamePlan().getCurrentRoom());
-        updateRoomItems();
+        Room currentRoom = game.getGamePlan().getCurrentRoom();
+        updateCurrentRoomImage(currentRoom);
         //implementace obrázků k východům pomocí annonymní třídy
         panelVychodu.setCellFactory(new Callback<ListView<Room>, ListCell<Room>>() {
             @Override
@@ -311,9 +313,6 @@ public class HomeController {
 
     }
 
-    @FXML
-    private Map<ImageView, Item> imageViewToItemMap = new HashMap<>();
-
 
 
     private void updateRoomItems() {
@@ -321,34 +320,32 @@ public class HomeController {
         ObservableList<Item> itemsList = FXCollections.observableArrayList(currentRoom.getItems().values());
         roomItemsListView.setItems(itemsList);
 
-        roomItemsListView.setCellFactory(new Callback<ListView<Item>, ListCell<Item>>() {
+        roomItemsListView.setCellFactory(param -> new ListCell<Item>() {
             @Override
-            public ListCell<Item> call(ListView<Item> listView) {
-                return new ListCell<Item>() {
-                    @Override
-                    protected void updateItem(Item item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty || item == null) {
-                            setText(null);
-                            setGraphic(null);
-                        } else {
-                            try {
-                                Image image = new Image(getClass().getResourceAsStream(item.getImagePath()));
-                                ImageView imageView = new ImageView(image);
-                                imageView.setFitHeight(72);
-                                imageView.setFitWidth(72);
-                                setGraphic(imageView);
-                                setText(item.getItemName());
-                            } catch (Exception e) {
-                                setText("Obrázek nenalezen pro " + item.getItemName());
-                                setGraphic(null);
-                            }
-                        }
+            protected void updateItem(Item item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    try {
+                        Image image = new Image(getClass().getResourceAsStream(item.getImagePath()));
+                        ImageView imageView = new ImageView(image);
+                        imageView.setFitHeight(72);
+                        imageView.setFitWidth(72);
+                        setGraphic(imageView);
+                        setText(item.getItemName());
+                    } catch (Exception e) {
+                        setText("Obrázek nenalezen pro " + item.getItemName());
+                        setGraphic(null);
                     }
-                };
+                }
             }
         });
     }
+
+
+
 
     @FXML
     private void predmetKlik(MouseEvent event) {
@@ -358,6 +355,12 @@ public class HomeController {
         }
     }
 
+
+    public void klikProhledat(ActionEvent event) {
+            game.processCommand("prohledat");
+            updateRoomItems();
+            vystup.appendText( game.getGamePlan().getCurrentRoom().itemDescription());
+        }
 
 }
 

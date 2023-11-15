@@ -34,6 +34,7 @@ public class CommandUse implements ICommand {
         }
 
         // hláška o úspěchu
+        Sounds.playSound("pouzij.mp3");
         return itemToUse.use(plan.getCurrentRoom());
     }
 

@@ -27,7 +27,9 @@ public class CommandSearch implements ICommand {
      */
     @Override
     public String resolveCommand(String... parametry) {
+        Sounds.playSound("prohledat.mp3");
         return this.plan.getCurrentRoom().itemDescription();
+
     }
 
 

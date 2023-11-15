@@ -2,6 +2,7 @@ module cz.vse.novf02 {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.web;
+    requires javafx.media;
 
 
     opens cz.vse.novf02.main to javafx.fxml;

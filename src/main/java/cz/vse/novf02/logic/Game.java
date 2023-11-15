@@ -84,15 +84,15 @@ public class Game implements IGame {
         // Kontrola výherní podmínky
         if (gamePlan.getCurrentRoom().containsItem("moudrost")) {
             setEpilog("Gratulace! Objevil(a) jsi moc koruny a vyhrál(a) hru!");
-            setGameEnd(true);
+            setGameEnd(true, true);
         }
 
         if (gamePlan.getInventory().containsItem("prastara_mince") && gamePlan.getInventory().containsItem("zlata_lampa")) {
             setEpilog("Gratulace! Podařilo se ti najít bohatství, o kterém se ti ani nesnilo a vyhrál(a) jsi hru!");
-            setGameEnd(true);}
+            setGameEnd(true,true);}
         if (gamePlan.getCurrentRoom().toString().equals("vychod") && gamePlan.getInventory().containsItem("koruna"))    {
             setEpilog("Gratulace! Podařilo se ti utéct s korunou v batohu. Vyhrál(a) jsi hru!");
-            setGameEnd(true);}
+            setGameEnd(true,true);}
 
         return textToPrint;
     }
@@ -100,9 +100,13 @@ public class Game implements IGame {
     /** Nastavuje konec hry
      * @param gameEnd pokud je true, hra končí
      */
-    void setGameEnd(boolean gameEnd) {
+    void setGameEnd(boolean gameEnd, boolean isVictory) {
         this.gameEnd = gameEnd;
+        if (gameEnd && isVictory) {
+            Sounds.playSound("vyhra.mp3");
+        }
     }
+
 
     /** Zjišťuje současný stav herního plánu
      * @return stav herního plánu (včetně informací o hráči)

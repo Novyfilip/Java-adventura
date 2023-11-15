@@ -1,4 +1,8 @@
 package cz.vse.novf02.logic;
+import cz.vse.novf02.main.Pozorovatel;
+import cz.vse.novf02.main.PredmetPozorovani;
+import cz.vse.novf02.main.ZmenaHry;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -13,7 +17,7 @@ import java.util.stream.Collectors;
  * @version pro školní rok 2020/2021
  */
 
-public class Room {
+public class Room implements PredmetPozorovani {
     private String roomName;
     private String description;
     private Set<Room> exits;
@@ -183,7 +187,7 @@ public class Room {
      * @return vrátí předmět pokud byl nalezen, jinak vrací null
      */
     public Item getItem(String itemName) {
-        return items.get(itemName); // This will return the Item if found or null if not found
+        return items.get(itemName);
     }
 
 
@@ -262,7 +266,9 @@ public class Room {
      * @return vlozena vec
      */
     public Item insertItem(Item item) {
+        Sounds.playSound("loot.mp3");
         items.put(item.getItemName(),item);
+        notifyObservers(ZmenaHry.ITEM_CHANGE);
         if (items.containsKey(item.getItemName())) {
             return item;
         }
@@ -277,7 +283,9 @@ public class Room {
      * @return odebrana vec
      */
     public Item removeItem(String name) {
+        notifyObservers(ZmenaHry.ITEM_CHANGE);
         return items.remove(name);
+
     }
 
     /**
@@ -291,4 +299,30 @@ public class Room {
 
     public Map<String,Item> getItems() {
     return this.items;}
+    //Observer
+    private Map<ZmenaHry, List<Pozorovatel>> observers = new HashMap<>();
+
+
+    /** Zaznamenává změny v herním plánu
+     * @param zmenaHry změna v herním plánu
+     * @param pozorovatel pozorovatel
+     */
+    @Override
+    public void registruj(ZmenaHry zmenaHry, Pozorovatel pozorovatel) {
+        observers.computeIfAbsent(zmenaHry, k -> new ArrayList<>()).add(pozorovatel);
+    }
+
+    /** Upozorňuje pozorovatele pro aktualizování zobrazeného obsahu.
+     * @param zmenaHry změna hry
+     */
+    void notifyObservers(ZmenaHry zmenaHry) {
+        if (observers.containsKey(zmenaHry)) {
+            for (Pozorovatel pozorovatel : observers.get(zmenaHry)) {
+                pozorovatel.aktualizuj();
+            }
+        }
+    }
+
+
+
 }

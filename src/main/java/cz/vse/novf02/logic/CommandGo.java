@@ -70,7 +70,7 @@ public class CommandGo implements ICommand{
         // Uložení místnosti jako předchozí
         plan.setPreviousRoom(plan.getCurrentRoom());
 
-
+        Sounds.playSound("jdi.mp3");
         plan.setCurrentRoom(nextPotentialRoom);
         return nextPotentialRoom.longDescription(playerInventory);
     }
