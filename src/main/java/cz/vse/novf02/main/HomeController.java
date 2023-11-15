@@ -12,6 +12,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.web.WebView;
@@ -20,6 +21,7 @@ import javafx.util.Callback;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -29,6 +31,8 @@ public class HomeController {
     private ImageView hrac;
     @FXML
     private ListView<Room> panelVychodu;
+    @FXML
+    private ListView<Item> roomItemsListView;
     @FXML
     private Button tlacitkoOdesli;
     @FXML
@@ -55,42 +59,44 @@ public class HomeController {
             aktualizujSeznamVychodu();
             aktualizujPolohuHrace();
             updateRoomDescription();//Nové
+            updateRoomItems(); // pro panel předmětů
         });
         game.registruj(ZmenaHry.KONEC_HRY, () -> aktualizujKonecHry());
         aktualizujSeznamVychodu();
         vlozSouradnice();
         updateCurrentRoomImage(game.getGamePlan().getCurrentRoom());
+        updateRoomItems();
         //implementace obrázků k východům pomocí annonymní třídy
         panelVychodu.setCellFactory(new Callback<ListView<Room>, ListCell<Room>>() {
-                @Override
-                public ListCell<Room> call(ListView<Room> listView) {
-                    return new ListCell<Room>() {
-                        @Override
-                        protected void updateItem(Room room, boolean empty) {
-                            super.updateItem(room, empty);
-                            if(empty || room == null) {
-                                setText(null);
+            @Override
+            public ListCell<Room> call(ListView<Room> listView) {
+                return new ListCell<Room>() {
+                    @Override
+                    protected void updateItem(Room room, boolean empty) {
+                        super.updateItem(room, empty);
+                        if (empty || room == null) {
+                            setText(null);
+                            setGraphic(null);
+                        } else {
+                            String imagePath = "/cz/vse/novf02/main/adventuraAssets/prostory/" + room.getRoomName() + ".png";
+                            try {
+                                ImageView iv = new ImageView(getClass().getResource(imagePath).toExternalForm());
+                                iv.setFitHeight(32);
+                                iv.setFitWidth(32);
+                                setGraphic(iv);
+                                setText(room.getRoomName());
+                            } catch (Exception e) {
+                                setText("Obrázek nenalezen pro " + room.getRoomName());
                                 setGraphic(null);
-                            } else {
-                                String imagePath = "/cz/vse/novf02/main/adventuraAssets/prostory/" + room.getRoomName() + ".png";
-                                try {
-                                    ImageView iv = new ImageView(getClass().getResource(imagePath).toExternalForm());
-                                    iv.setFitHeight(32);
-                                    iv.setFitWidth(32);
-                                    setGraphic(iv);
-                                    setText(room.getRoomName());
-                                } catch (Exception e) {
-                                    setText("Obrázek nenalezen pro " + room.getRoomName());
-                                    setGraphic(null);
-                                }
                             }
                         }
-                    };
-                }
-            });
+                    }
+                };
+            }
+        });
 
 
-        }
+    }
 
 
     /**
@@ -163,7 +169,9 @@ public class HomeController {
         delay.play();
     }
 
-    /** Předá hře zadaná text z TextFieldu
+    /**
+     * Předá hře zadaná text z TextFieldu
+     *
      * @param actionEvent příkaz
      */
     @FXML
@@ -173,7 +181,9 @@ public class HomeController {
         zpracujPrikaz(prikaz);
     }
 
-    /** Informuje hráče o výsledku provedené akce v TextAree
+    /**
+     * Informuje hráče o výsledku provedené akce v TextAree
+     *
      * @param prikaz zadaný text
      */
     private void zpracujPrikaz(String prikaz) {
@@ -184,7 +194,9 @@ public class HomeController {
     }
 
 
-    /** Zavře hru, když si ji hráč přeje ukončit
+    /**
+     * Zavře hru, když si ji hráč přeje ukončit
+     *
      * @param actionEvent potvrzení konce
      */
     public void ukončitHru(ActionEvent actionEvent) {
@@ -194,7 +206,9 @@ public class HomeController {
             Platform.exit();
     }
 
-    /** Definuje co se stane po kliknutí na panel
+    /**
+     * Definuje co se stane po kliknutí na panel
+     *
      * @param mouseEvent klik
      */
     @FXML
@@ -217,7 +231,9 @@ public class HomeController {
     @FXML
     private ImageView currentRoomImageView;
 
-    /** Aktualizuje zobrazovaný obrázek
+    /**
+     * Aktualizuje zobrazovaný obrázek
+     *
      * @param currentRoom současná místnost
      */
     public void updateCurrentRoomImage(Room currentRoom) {
@@ -234,19 +250,26 @@ public class HomeController {
     }
 
 
-    /** Definuje co se stane po kliknutí na nápovědu v menu
+    /**
+     * Definuje co se stane po kliknutí na nápovědu v menu
+     *
      * @param actionEvent kliknutí na položku menu
      */
     public void napovedaKlik(ActionEvent actionEvent) {
         Stage napovedaStage = new Stage();
         WebView wv = new WebView();
-        Scene napovedaScena  = new Scene(wv);
+        Scene napovedaScena = new Scene(wv);
         napovedaStage.setScene(napovedaScena);
         napovedaStage.show();
         wv.getEngine().load(getClass().getResource("napoveda.html").toExternalForm());
     }
 
-    /** Vrátí všechno do původního stavu
+
+
+
+    /**
+     * Vrátí všechno do původního stavu
+     *
      * @param event kliknutí na položku nová hra
      */
     @FXML
@@ -286,7 +309,55 @@ public class HomeController {
         }
 
 
-
     }
+
+    @FXML
+    private Map<ImageView, Item> imageViewToItemMap = new HashMap<>();
+
+
+
+    private void updateRoomItems() {
+        Room currentRoom = game.getGamePlan().getCurrentRoom();
+        ObservableList<Item> itemsList = FXCollections.observableArrayList(currentRoom.getItems().values());
+        roomItemsListView.setItems(itemsList);
+
+        roomItemsListView.setCellFactory(new Callback<ListView<Item>, ListCell<Item>>() {
+            @Override
+            public ListCell<Item> call(ListView<Item> listView) {
+                return new ListCell<Item>() {
+                    @Override
+                    protected void updateItem(Item item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty || item == null) {
+                            setText(null);
+                            setGraphic(null);
+                        } else {
+                            try {
+                                Image image = new Image(getClass().getResourceAsStream(item.getImagePath()));
+                                ImageView imageView = new ImageView(image);
+                                imageView.setFitHeight(72);
+                                imageView.setFitWidth(72);
+                                setGraphic(imageView);
+                                setText(item.getItemName());
+                            } catch (Exception e) {
+                                setText("Obrázek nenalezen pro " + item.getItemName());
+                                setGraphic(null);
+                            }
+                        }
+                    }
+                };
+            }
+        });
+    }
+
+    @FXML
+    private void predmetKlik(MouseEvent event) {
+        Item selectedItem = roomItemsListView.getSelectionModel().getSelectedItem();
+        if (selectedItem != null) {
+            game.processCommand("sebrat " + selectedItem.getItemName());
+        }
+    }
+
+
 }
 

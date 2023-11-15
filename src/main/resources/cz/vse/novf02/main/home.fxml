@@ -21,7 +21,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="600.0" stylesheets="@darkTheme.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.vse.novf02.main.HomeController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="560.0" prefWidth="600.0" stylesheets="@darkTheme.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cz.vse.novf02.main.HomeController">
   <columnConstraints>
     <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
   </columnConstraints>
@@ -46,7 +46,7 @@
 
         </menus>
       </MenuBar>
-      <TextField fx:id="vstup" onAction="#odesliVstup" prefHeight="25.0" prefWidth="509.0" GridPane.rowIndex="3">
+      <TextField fx:id="vstup" onAction="#odesliVstup" prefHeight="18.0" prefWidth="532.0" GridPane.rowIndex="3">
          <GridPane.margin>
             <Insets left="4.0" right="64.0" />
          </GridPane.margin>
@@ -55,6 +55,9 @@
          <GridPane.margin>
             <Insets right="4.0" />
          </GridPane.margin>
+         <font>
+            <Font name="Poor Richard" size="11.0" />
+         </font>
       </Button>
       <SplitPane dividerPositions="0.24" GridPane.rowIndex="2">
          <items>
@@ -91,38 +94,31 @@
 
          </items>
       </SplitPane>
-      <TitledPane animated="false" contentDisplay="TOP" text="Mapa" GridPane.rowIndex="1">
-         <content>
-            <HBox alignment="TOP_CENTER" prefWidth="590.0">
-               <children>
-                  <Pane>
-                     <children>
-                        <ImageView fitHeight="330.0" fitWidth="480.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@adventuraAssets/herniPlan.jpg" />
-                           </image>
-                        </ImageView>
-                        <ImageView fx:id="hrac" fitHeight="45.0" fitWidth="67.0" layoutX="221.0" layoutY="225.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@adventuraAssets/hrac.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </Pane>
-                  <GridPane prefHeight="265.0" prefWidth="101.0">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                  </GridPane>
-               </children>
-            </HBox>
-         </content>
-      </TitledPane>
+       <TitledPane animated="false" contentDisplay="TOP" text="Mapa" GridPane.rowIndex="1">
+           <content>
+               <HBox alignment="TOP_CENTER" spacing="10"> <!-- Add spacing for better separation -->
+                   <Pane maxHeight="330" prefWidth="480"> <!-- Set preferred width for the Pane -->
+                       <children>
+                           <ImageView fitHeight="330.0" fitWidth="480.0" pickOnBounds="true" preserveRatio="true">
+                               <image>
+                                   <Image url="@adventuraAssets/herniPlan.jpg" />
+                               </image>
+                           </ImageView>
+                           <ImageView fx:id="hrac" fitHeight="45.0" fitWidth="67.0" layoutX="221.0" layoutY="225.0" pickOnBounds="true" preserveRatio="true">
+                               <image>
+                                   <Image url="@adventuraAssets/hrac.png" />
+                               </image>
+                           </ImageView>
+                       </children>
+                   </Pane>
+                   <ListView fx:id="roomItemsListView" maxHeight="330" onMouseClicked="#predmetKlik" prefHeight="262.0" prefWidth="92.0" /> <!-- Set preferred width and max height for ListView -->
+               </HBox>
+           </content>
+         <font>
+            <Font name="Poor Richard" size="16.0" />
+         </font>
+       </TitledPane>
+
 
 
 

@@ -14,10 +14,8 @@
     -fx-prompt-text-fill: #757575;
 }
 
-.menu-bar {
-    -fx-background-color: #3c3f41;
-    -fx-text-fill: #ffffff;
-}
+
+
 
 .menu {
     -fx-text-fill: #dcdcdc;

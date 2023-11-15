@@ -17,7 +17,7 @@ public class Room {
     private String roomName;
     private String description;
     private Set<Room> exits;
-    private Map<String, Item> items;
+    private Map<String, Item> items = new HashMap<>();
     private String requiredItem;
     private GamePlan game;
 
@@ -32,7 +32,7 @@ public class Room {
         this.description = description;
         this.requiredItem = requiredItem;
         exits = new HashSet<>();
-        items = new HashMap<>();
+
 
     }
 
@@ -289,9 +289,6 @@ public class Room {
     }
 
 
-
-
-
-
-
+    public Map<String,Item> getItems() {
+    return this.items;}
 }
