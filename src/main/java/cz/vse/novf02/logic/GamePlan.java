@@ -29,7 +29,14 @@ public class GamePlan implements PredmetPozorovani {
     //Evidence předchozí místnosti pro návrat zpět
     private Room previousRoom = null;
     private Map<ZmenaHry, Set <Pozorovatel>> seznamPozorovatelu = new HashMap<>();
+    private Map<String, Room> rooms = new HashMap<>();
 
+    public void addRoom(String roomName, Room room) {
+        rooms.put(roomName, room);
+    }
+    public Collection<Room> getAllRooms() {
+        return rooms.values();
+    }
 
     /** Zjišťuje předchozí místnost pro účel příkazu jdi zpet
      * @return předchozí místnost
@@ -81,26 +88,37 @@ public class GamePlan implements PredmetPozorovani {
     private void createGame(){
 
        // vytvářejí se jednotlivé Prostory
-        vstupDoKatakomb = new Room("vstupDoKatakomb","Vstup do podzemí");
-
-        Room vstupniMistnost = new Room("vstupniMistnost", "Dveře se otevřely a ty se nacházíš ve vstupní síni.\n Dveře se za tebou zabouchly,\ntak budeš muset najít jinou cestu ven.","stary_klic");
+             Room vstupDoKatakomb = new Room("vstupDoKatakomb","Vstup do podzemí");
+             addRoom("vstupDoKatakomb", vstupDoKatakomb);
+             Room vstupniMistnost = new Room("vstupniMistnost", "Dveře se otevřely a ty se nacházíš ve vstupní síni.\n Dveře se za tebou zabouchly,\ntak budeš muset najít jinou cestu ven.","stary_klic");
              Room leveRozcesti = new Room("leveRozcesti","Šel jsi levou chodbou.\n Zde chodba končí. Po pravé straně je hrobka prince Philipa,\n zatímco na konci chodby je hrobka významných rytířů.");
              Room hrobkaPrince = new Room("hrobkaPrince","Vešel jsi do hrobky prince Philipa.\n Oficiálně se dožil 99 let, ale šuškalo se o něm,\n že je ve skutečnosti 1000 let starý upír.");
+             addRoom("hrobkaPrince",hrobkaPrince);
              Room hrobkaRytiru = new Room("hrobkaRytiru", "Vstoupil jsi do komnaty,\n kde jsou pohřbeni nejvýznamnější\n členové královské stráže.\n Jeden sarkofág je pootevřený \na v něm vidíš ležícího rytíře\n s pořádným palcátem v ruce.\n Že by Jan Žižka?");
+             addRoom("hrobkaRytiru",hrobkaRytiru);
              Room levyDungeon = new Room("levyDungeon", "Při vstupu do místnosti uslyšíš hrozivé zvuky.\n  Jsou to oživlé mumie! Bojuj nebo uteč!");
+             addRoom("levyDungeon",levyDungeon);
              Room levyMost = new Room("levyMost","Na druhém konci místnosti stojí nemrtvý čaroděj.\n Jednej rychle, nebo tě promění v žábu!");
+             addRoom("levyMost",levyMost);
              Room stredKatakomb = new Room("stredKatakomb","Nacházíš se v samém srdci katakomb. Na východě vidíš jakési světlo, na jihu dveře, které musí vést do vstupní místnosti a na severu vstup tak honosný, že to může být jen krypta krále Šalamouna.\n" +
                       "Na kamenných dveřích vidíš jakýsi kruh. Po bližším ohledání vidíš, že se tam musí vložit královská pečeť.\n","kralovska_pecet");
+             addRoom("stredKatakomb",stredKatakomb);
              Room vychod = new Room("vychod","Našel jsi cestu zpět. Hurá!","klic_zpet");
              Room praveRozcesti = new Room("praveRozcesti","Šel jsi pravou chodbou.\n Zde chodba končí. Po levé straně je lovecký salon,\n zatímco na konci chodby slyšíš kapající vodu.");
              Room studanka = new Room("studanka", "Před sebou vidíš, jak pramen vvvěrá do studánky.\n Osvěžíš se a hned je ti lépe.\n Zdá se, že tu byla vytvořena pro případ požáru.");
+             addRoom("studanka",studanka);
              Room loveckySalon = new Room("loveckySalon", "Vstoupil jsi do místnosti plné loveckého vybavení.\n Dle dobových záznamů by tu mohl být luk Robina Hooda.");
+             addRoom("loveckySalon",loveckySalon);
              Room pravyDungeon = new Room("pravyDungeon","Před tebou stojí obří oživlý strážce v těžké zbroji. Abys vůbec měl šanci prorazit jeho brnění, budeš potřebovat pořádnou zbraň");
+             addRoom("pravyDungeon",pravyDungeon);
              Room pravyMost = new Room("pravyMost", "Je tady dost horko, stojíš na mostě nad žhavou lávou.\n Zdá se ale, že to ohnivému elementálovi před tebou vyhovuje.");
+             addRoom("pravyMost",pravyMost);
              Room kralovskaKrypta = new Room("kralovskaKrypta","Konečně jsi u cíle. Před tebou leží zapečetěný sarkofág.");
+             addRoom("kralovskaKrypta",kralovskaKrypta);
              Room pokladnice = new Room ("pokladnice","Objevil(a) jsi tajnou pokladnici krále Šalamouna.","rezavy_klic");
+             addRoom("pokladnice",pokladnice);
              Room zlataSin = new Room("zlataSin","Objevila jsi bájnou zlatou síň. V záři tvé pochodně se blyští zlaťáky, drahokamy a vzácné artefakty.\nV cestě ti ale stojí mocný džin. Aby se s tebou podělil o jeho poklad,\n musíš mu dát něco pro něj obdobně hodnotného.","esence");
-
+             addRoom("zlataSin",zlataSin);
         /**
          * tvorba východů
          */
@@ -184,7 +202,7 @@ public class GamePlan implements PredmetPozorovani {
         luk.setInteraction("carodej","Jednalo se králova bývalého rádce. Možná měl u sebe něco užitečného.");
         rezavy_klic.setInteraction("truhla","Víko se pohlo a odhalilo poklad!");
         esence.setInteraction("hrouda_zlata","Džinovi se tvá nabídka líbí");
-        koruna.setInteraction("trun","Cítíš, jak tvoje mysl byla naplněna nekonečnou moudrostí.");
+        koruna.setInteraction("trun","Záře koruny osvětluje místnost.");
         kralovska_pecet.setInteraction("sarkofag","S obtížemi jsi otevřel(a) víko sarkofágu.");
         /**
          * Vygenerovaný loot
@@ -308,6 +326,7 @@ public class GamePlan implements PredmetPozorovani {
             pozorovatel.aktualizuj();
         }
     }
+
 
 
 }

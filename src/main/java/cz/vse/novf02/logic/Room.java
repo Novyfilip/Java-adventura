@@ -283,10 +283,13 @@ public class Room implements PredmetPozorovani {
      * @return odebrana vec
      */
     public Item removeItem(String name) {
-        notifyObservers(ZmenaHry.ITEM_CHANGE);
-        return items.remove(name);
-
+        Item item = items.remove(name);
+        if (item != null) {
+            notifyObservers(ZmenaHry.ITEM_CHANGE);
+        }
+        return item;
     }
+
 
     /**
      * @return vrací název místnosti (ne Hashcode)

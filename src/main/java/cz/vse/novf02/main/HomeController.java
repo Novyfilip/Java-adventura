@@ -23,7 +23,7 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.util.*;
 
-public class HomeController {
+public class HomeController implements Pozorovatel {
     @FXML
     private ImageView hrac;
     @FXML
@@ -60,10 +60,13 @@ public class HomeController {
             updateRoomDescription();//Nové
             updateRoomItems(); //První update
 
+
         });
         game.getGamePlan().getCurrentRoom().registruj(ZmenaHry.ITEM_CHANGE, this::updateRoomItems);
+        //pokus
+        registerRoomObservers();
         updateRoomItems(); // pro panel předmětů
-        game.registruj(ZmenaHry.KONEC_HRY, () -> aktualizujKonecHry());
+        game.registruj(ZmenaHry.KONEC_HRY, this::aktualizujKonecHry);
         aktualizujSeznamVychodu();
         vlozSouradnice();
         Room currentRoom = game.getGamePlan().getCurrentRoom();
@@ -150,22 +153,25 @@ public class HomeController {
      * Umožňuje konec hry
      */
     private void aktualizujKonecHry() {
+        System.out.println("Konec hry");
         if (game.gameEnd()) {
             String epilog = game.returnEpilog();
             vystup.appendText(epilog + "\n\n");
+            closeWindow();
         }
-
-        vstup.setDisable(game.gameEnd());
-        tlacitkoOdesli.setDisable(game.gameEnd());
-        panelVychodu.setDisable(game.gameEnd());
-        // Zavře hru
-        closeWindow();
     }
+
+
+
+
 
     /**
      * Zavře okno s dostatečným časem pro přečtení Epilogu
      */
     private void closeWindow() {
+        vstup.setDisable(true);
+        //tlacitkoOdesli.setDisable(true);
+        panelVychodu.setDisable(true);
         PauseTransition delay = new PauseTransition(Duration.seconds(10));
         delay.setOnFinished(event -> Platform.exit());
         delay.play();
@@ -178,9 +184,11 @@ public class HomeController {
      */
     @FXML
     private void odesliVstup(ActionEvent actionEvent) {
-        String prikaz = vstup.getText();
-        vstup.clear();
-        zpracujPrikaz(prikaz);
+        if (!game.gameEnd()) {
+            String prikaz = vstup.getText();
+            vstup.clear();
+            zpracujPrikaz(prikaz);
+        }
     }
 
     /**
@@ -215,10 +223,11 @@ public class HomeController {
      */
     @FXML
     private void klikPanelVychodu(MouseEvent mouseEvent) {
-        Room cil = panelVychodu.getSelectionModel().getSelectedItem();
+        if (!game.gameEnd()) {Room cil = panelVychodu.getSelectionModel().getSelectedItem();
         if (cil == null) return;
         String prikaz = CommandGo.title + " " + cil.getRoomName();
         zpracujPrikaz(prikaz);//Jak
+    }
     }
 
     /**
@@ -278,16 +287,27 @@ public class HomeController {
     private void novaHra(ActionEvent event) {
         this.game = new Game();
         vystup.clear();
+
+        // Registrace observerů
+        game.getGamePlan().registruj(ZmenaHry.ZMENA_MISTNOSTI, () -> {
+            aktualizujSeznamVychodu();
+            aktualizujPolohuHrace();
+            updateRoomDescription();
+            updateRoomItems();
+        });
+
+        registerRoomObservers();
+
+        // Aktualizace místnosti
         aktualizujSeznamVychodu();
         updateRoomDescription();
         aktualizujPolohuHrace();
         updateCurrentRoomImage(game.getGamePlan().getCurrentRoom());
+        updateRoomItems();
         vystup.appendText(game.returnEpilog() + "\n\n");
         vystup.appendText(game.returnStart() + "\n\n");
-        // možná bude třeba ještě upozornit další observery
-
-
     }
+
 
     @FXML
     private void otevriInventar(ActionEvent event) {
@@ -349,18 +369,38 @@ public class HomeController {
 
     @FXML
     private void predmetKlik(MouseEvent event) {
-        Item selectedItem = roomItemsListView.getSelectionModel().getSelectedItem();
-        if (selectedItem != null) {
-            game.processCommand("sebrat " + selectedItem.getItemName());
+        if (!game.gameEnd()) {
+            Item selectedItem = roomItemsListView.getSelectionModel().getSelectedItem();
+            if (selectedItem != null) {
+                game.processCommand("sebrat " + selectedItem.getItemName());
+            }
         }
     }
 
 
     public void klikProhledat(ActionEvent event) {
-            game.processCommand("prohledat");
+        if (!game.gameEnd()) {game.processCommand("prohledat");
             updateRoomItems();
             vystup.appendText( game.getGamePlan().getCurrentRoom().itemDescription());
         }
+    }
+    private void registerRoomObservers() {
+        for (Room room : game.getGamePlan().getAllRooms()) {
+            room.registruj(ZmenaHry.ITEM_CHANGE, this);
+        }
+    }
+
+    /**
+     *
+     */
+    @Override
+    public void aktualizuj() {
+        if (game.gameEnd()) {
+            aktualizujKonecHry();
+        } else {
+            updateRoomItems();
+        }
+    }
 
 }
 
